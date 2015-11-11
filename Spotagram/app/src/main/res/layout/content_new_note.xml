@@ -27,19 +27,30 @@
                 android:id="@+id/editText"
                 android:lines="4"
                 android:hint="Input new note" />
-
-            <Button
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Insert Image"
-                android:id="@+id/button"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insert Image"
+                    android:id="@+id/button"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Send"
+                    android:onClick="send_and_return"/>
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Place: 6224 5th Ave"
+                android:text="Location: 6224 5th Ave"
                 android:id="@+id/textView"
                 android:layout_margin="10dp" />
 

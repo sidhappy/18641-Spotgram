@@ -3,6 +3,7 @@ package lgm.cmu.spotagram.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -189,6 +191,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+
+            //
+            finish_Login();
         }
     }
 
@@ -348,5 +353,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+    /*
+     *Written by Mj,used to start the map activity
+     */
+    public void finish_Login(){
+        //Log.v("change to map","is done");
+        Intent intent =new Intent(this,MapsActivity.class);
+        startActivity(intent);
+    }
+
 }
 
