@@ -19,6 +19,8 @@ public class DetailActivity extends AppCompatActivity {
     private Context mContext;
     private MaterialListView mListView;
 
+    private String testJson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         createCard(1);
+
+        testJson = "json file content";
     }
 
     public void createCard(int type){

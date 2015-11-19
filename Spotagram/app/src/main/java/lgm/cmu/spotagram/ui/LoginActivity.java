@@ -288,6 +288,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
+    private void checkInput(){
+
+    }
+
+    private void login(){
+        // sent username & password to server
+        // get result from server
+        // if return 0 -> correct -> jump to main page
+        // else Toast description
+    }
+
+
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
