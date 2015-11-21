@@ -1,4 +1,4 @@
-package lgm.cmu.spotagram.Model;
+package lgm.cmu.spotagram.model;
 
 /**
  * Created by MiaojunLi on 15/11/11.
