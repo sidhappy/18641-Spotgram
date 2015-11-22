@@ -370,7 +370,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public void finish_Login(){
         //Log.v("change to map","is done");
-        Intent intent =new Intent(this,MapsActivity.class);
+        Intent intent =new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

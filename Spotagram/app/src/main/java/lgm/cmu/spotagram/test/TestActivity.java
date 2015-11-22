@@ -10,7 +10,6 @@ import lgm.cmu.spotagram.ui.AboutMeActivity;
 import lgm.cmu.spotagram.ui.DetailActivity;
 import lgm.cmu.spotagram.ui.LoginActivity;
 import lgm.cmu.spotagram.ui.MainActivity;
-import lgm.cmu.spotagram.ui.MapsActivity;
 import lgm.cmu.spotagram.ui.NearByActivity;
 import lgm.cmu.spotagram.ui.NewNoteActivity;
 import lgm.cmu.spotagram.ui.SettingsActivity;
