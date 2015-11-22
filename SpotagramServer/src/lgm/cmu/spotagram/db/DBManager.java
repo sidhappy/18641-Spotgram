@@ -9,7 +9,7 @@ import lgm.cmu.spotagram.model.Note;
 public class DBManager {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/spotagram";
 	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "root";
+	private static final String DB_PASSWORD = "123456";
 	private Connection connection;
 	private static DBManager instance;
 

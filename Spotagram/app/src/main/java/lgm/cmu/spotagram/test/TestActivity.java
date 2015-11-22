@@ -9,6 +9,7 @@ import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.ui.AboutMeActivity;
 import lgm.cmu.spotagram.ui.DetailActivity;
 import lgm.cmu.spotagram.ui.LoginActivity;
+import lgm.cmu.spotagram.ui.MainActivity;
 import lgm.cmu.spotagram.ui.MapsActivity;
 import lgm.cmu.spotagram.ui.NearByActivity;
 import lgm.cmu.spotagram.ui.NewNoteActivity;
@@ -28,7 +29,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void tomap(View view){
-        Intent intent = new Intent(TestActivity.this, MapsActivity.class);
+        Intent intent = new Intent(TestActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
