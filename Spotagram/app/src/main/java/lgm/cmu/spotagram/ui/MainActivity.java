@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.test.TestActivity;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
@@ -60,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 // need to send the location
                 Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
+                intent.putExtra("latitude", String.valueOf(location.getLatitude()));
+                intent.putExtra("longitude", String.valueOf(location.getLongitude()));
                 startActivity(intent);
             }
         });
@@ -76,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
                     try {
-                        setCurrentLocation(locationManager.getLastKnownLocation(provider));
+                        location = locationManager.getLastKnownLocation(provider);
+                        setCurrentLocation(location);
                     } catch (SecurityException se){
 
                     }
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
+        this.location = location;
         setCurrentLocation(location);
     }
 
