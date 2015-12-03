@@ -10,6 +10,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         try {
             location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+            if (location == null) {
+                location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+            }
         } catch (SecurityException se){
 
         }
@@ -68,36 +74,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // need to send the location
-                Intent intent = new Intent(MainActivity.this, NearByActivity.class);
-                if (location != null) {
-                    intent.putExtra("latitude", String.valueOf(location.getLatitude()));
-                    intent.putExtra("longitude", String.valueOf(location.getLongitude()));
-                }
-                startActivity(intent);
-            }
-        });
-
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // need to send the location
-                Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
         try {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-
+                    setCurrentLocation(location);
                 }
 
 
@@ -126,6 +108,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_search:
+                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_nearby:
+                intent = new Intent(MainActivity.this, NearByActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_settings:
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_aboutme:
+                intent = new Intent(MainActivity.this, AboutMeActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
     /**
      * Manipulates the map once available.
@@ -186,4 +202,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onProviderDisabled(String provider) {
 
     }
+
+
+
+
 }
