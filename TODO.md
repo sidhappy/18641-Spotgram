@@ -23,3 +23,11 @@
 + 两套布局（手机+平板）
 
 
+---
+
++ ActionBar 的定制与笔记
+	+ 导航栏，其他按钮移动到 actionbar 上
+	+ tab 用在 personal info 上
+	+ 
++ Fragment 的复用与笔记
+
