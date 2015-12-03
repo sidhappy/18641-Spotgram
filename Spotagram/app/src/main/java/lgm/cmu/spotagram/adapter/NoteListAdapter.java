@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import lgm.cmu.spotagram.R;
@@ -22,10 +23,12 @@ import lgm.cmu.spotagram.model2.Note;
 public class NoteListAdapter extends BaseAdapter {
     private List<Note> mNotes;
     private Context mContext;
+    private SimpleDateFormat mSimpleDateFormat;
 
     public NoteListAdapter(Context context, List<Note> notes) {
         mNotes = notes;
         mContext = context;
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     }
 
     @Override
@@ -63,7 +66,7 @@ public class NoteListAdapter extends BaseAdapter {
         Note note = mNotes.get(position);
         holder.mNameTextView.setText(note.getUsername());
         holder.mContentTextView.setText(note.getContent());
-        holder.mDateTextView.setText(note.getDate().toString());
+        holder.mDateTextView.setText(mSimpleDateFormat.format(note.getDate()));
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(note.getUserURL(), holder.mImageView);

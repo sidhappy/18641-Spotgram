@@ -86,4 +86,20 @@ public class RequestUtil {
 
         return comments;
     }
+
+    public static int parseNoteReplyResult(String jsonStr) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            int resultCode = jsonObject.getInt(ConstantValue.KEY_RESULT);
+            if (resultCode != ConstantValue.RESULT_OK) {
+                return -1;
+            } else {
+                return jsonObject.getInt(ConstantValue.KEY_COMMENT_ID);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    };
 }
