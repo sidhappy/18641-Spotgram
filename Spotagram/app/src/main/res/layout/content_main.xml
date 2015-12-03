@@ -16,6 +16,7 @@
         android:layout_height="match_parent" android:id="@+id/map"
         tools:context="lgm.cmu.spotagram.ui.MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        />
+        tools:layout="@layout/activity_main" />
+
 
 </LinearLayout>

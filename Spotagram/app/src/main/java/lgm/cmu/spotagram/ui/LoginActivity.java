@@ -30,19 +30,35 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import lgm.cmu.spotagram.R;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.HttpUtil;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    static final String URL_login = "http://108.39.226.68/SpotagramServer/LoginServlet";
+    static final String URL_register = "http://108.39.226.68/SpotagramServer/RegisterServlet";
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -59,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private UserRegisterTask mRegisTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -97,6 +114,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -143,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to Sign in the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
@@ -151,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
+
 
         // Reset errors.
         mEmailView.setError(null);
@@ -192,10 +212,81 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
 
-            //
-            finish_Login();
+            // finish_Login();
         }
     }
+
+    /*
+     *Attempts to Register the account specified by the login form.
+     * If there are form errors (invalid email, missing fields, etc.), the
+     * errors are presented and no actual login attempt is made.
+     */
+    public void attemptRegister(View v){
+        if (mRegisTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+
+        // Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            showProgress(true);
+            mRegisTask = new UserRegisterTask(email, password);
+            mRegisTask.execute((Void) null);
+
+            // finish_Login();
+        }
+//        String receive=null;
+//        try{
+//            String parameter=ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
+//            HttpUtil httputil= new HttpUtil();
+////                  Log.v("test","Http is done");
+//            InputStream is=httputil.sendPost(URL,parameter);
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+//            receive=bufferedReader.readLine();
+//            Log.v(bufferedReader.readLine(), "reading");
+//            bufferedReader.close();
+//        }catch(IOException e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//        String result=receive.split(":")[1].split("}")[0];
+//        if(result.equals("0")) return true;
+//        else return false;
+    }
+
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
@@ -310,7 +401,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
+     * Represents an asynchronous Login task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -323,28 +414,60 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            // TODO: attempt authentication against a network service.
+//
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+//
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+//
+//            // TODO: register the new account here.
+//            return true;
+//        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            String receive=null;
+            try{
+                String parameter=ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
+                HttpUtil httputil= new HttpUtil();
+//                  Log.v("test","Http is done");
+                InputStream is=httputil.sendPost(URL_login,parameter);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+                receive=bufferedReader.readLine();
+                Log.v(bufferedReader.readLine(), "reading");
+                bufferedReader.close();
+            }catch(IOException e){
+                e.printStackTrace();
+                return false;
             }
 
-            // TODO: register the new account here.
-            return true;
+            if (receive.equals("{\"result\":0}")){
+                return true;
+            }
+            return false;
+
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {
@@ -352,7 +475,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                finish();
+                Intent intent = new Intent(LoginActivity.this, DetailActivity.class);
+                startActivity(intent);
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -365,12 +490,79 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+    /**
+     * Represents an asynchronous Registration task used to authenticate
+     * the user.
+     */
+    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+
+        UserRegisterTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+            String receive=null;
+            try{
+                String parameter=ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
+                HttpUtil httputil= new HttpUtil();
+                InputStream is=httputil.sendPost(URL_register,parameter);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+                receive=bufferedReader.readLine();
+                Log.v(bufferedReader.readLine(), "reading");
+                bufferedReader.close();
+            }catch(IOException e){
+                e.printStackTrace();
+                return false;
+            }
+            if (receive.equals("{\"result\":0}")){
+                return true;
+            }
+            return false;
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mRegisTask = null;
+            showProgress(false);
+
+            if (success) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "New User Registered. Login with the new Account", Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mRegisTask = null;
+            showProgress(false);
+        }
+    }
+
     /*
      *Written by Mj,used to start the map activity
      */
-    public void finish_Login(){
+    public void finish_Login() {
         //Log.v("change to map","is done");
-        Intent intent =new Intent(this, MainActivity.class);
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 

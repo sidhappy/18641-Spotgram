@@ -59,11 +59,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 // need to send the location
                 Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
-                intent.putExtra("latitude", String.valueOf(location.getLatitude()));
-                intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+
+                if (location != null) {
+                    intent.putExtra("latitude", String.valueOf(location.getLatitude()));
+                    intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+                }
                 startActivity(intent);
             }
         });
+
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // need to send the location
+                Intent intent = new Intent(MainActivity.this, NearByActivity.class);
+                if (location != null) {
+                    intent.putExtra("latitude", String.valueOf(location.getLatitude()));
+                    intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+                }
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // need to send the location
+                Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         try {
             locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
