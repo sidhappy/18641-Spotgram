@@ -1,4 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="lgm.cmu.spotagram.ui.MainActivity">
@@ -12,11 +13,12 @@
 
     <item android:id="@+id/action_search"
         android:title="Search"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom|collapseActionView"
+        appcompat:actionViewClass="android.support.v7.widget.SearchView"/>
 
     <item android:id="@+id/action_nearby"
         android:title="Near By"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <item android:id="@+id/action_settings"
         android:title="Settings"
