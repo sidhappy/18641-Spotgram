@@ -77,13 +77,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private UserLoginTask mAuthTask = null;
     private UserRegisterTask mRegisTask = null;
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText userNameView;
     private View mProgressView;
     private View mLoginFormView;
 
+    //
+    private boolean registerReady;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        userNameView=(EditText)findViewById(R.id.userName);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -115,7 +117,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -186,7 +187,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
+        if (registerReady==true){
+            registerReady=false;
+            userNameView.setText(null);
+            userNameView.setVisibility(View.GONE);
+            return;
+        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -242,6 +248,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return;
         }
 
+        if(registerReady==false){
+
+            Toast.makeText(getApplicationContext(), "Please insert a new UserName",
+                    Toast.LENGTH_SHORT).show();
+            userNameView.setText(null);
+            userNameView.setVisibility(View.VISIBLE);
+            registerReady=true;
+            return;
+
+        }
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -249,6 +265,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String username= userNameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -279,7 +296,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mRegisTask = new UserRegisterTask(email, password);
+            mRegisTask = new UserRegisterTask(email, password,username);
             mRegisTask.execute((Void) null);
 
             // finish_Login();
@@ -424,7 +441,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
-
+        private int error;
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -479,6 +496,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (receive.equals("{\"result\":0}")){
                 return true;
+            }else if (receive.equals("{\"result\":-1}")){
+                error=-1;
+
+            }else if (receive.equals("{\"result\":-3}")){
+                error=-3;
+
             }
             return false;
 
@@ -495,8 +518,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
 
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(error == -1){
+                   mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();
+                }
+                if(error==-3){
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+
             }
         }
 
@@ -515,10 +545,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mUsername;
+        private int error;
 
-        UserRegisterTask(String email, String password) {
+        UserRegisterTask(String email, String password,String usernamr) {
             mEmail = email;
             mPassword = password;
+            this.mUsername=usernamr;
         }
 
         @Override
@@ -532,19 +565,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             String receive=null;
             try{
-                String parameter=ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
+                String parameter=ConstantValue.KEY_USERNAME+"="+this.mUsername+"&"+ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
                 HttpUtil httputil= new HttpUtil();
                 InputStream is=httputil.sendPost(URL_register,parameter);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
                 receive=bufferedReader.readLine();
-                Log.v(bufferedReader.readLine(), "reading");
                 bufferedReader.close();
             }catch(IOException e){
                 e.printStackTrace();
                 return false;
             }
-            if (receive.equals("{\"result\":0}")){
+            if (receive.split(",")[0].equals("{\"result\":0")){
+                error=0;
                 return true;
+            }
+            else if (receive.equals("{\"result\":-1}")){
+                error=-1;
+            } else if (receive.equals("{\"result\":-2}")){
+                error=-2;
+            }else{
+                error=-3;
             }
             return false;
         }
@@ -559,9 +599,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "New User Registered. Login with the new Account", Toast.LENGTH_LONG);
                 toast.show();
+                Intent intent = new Intent(LoginActivity.this, DetailActivity.class);
+                startActivity(intent);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
+                if (error==-1){
+                    userNameView.setError("Please try another User Name");
+                    userNameView.requestFocus();
+                }else  if(error==-2){
+                    mEmailView.setError("Please try another Email");
+                    mEmailView.requestFocus();
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Registation failed, Please try again", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         }
 
@@ -576,8 +628,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      *Written by Mj,used to start the map activity
      */
     public void finish_Login() {
-        //Log.v("change to map","is done");
-
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
