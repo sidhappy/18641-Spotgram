@@ -103,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                 })
-                .setNegativeButton("Cancel",null).show();
+                .setNegativeButton("Cancel", null).show();
     }
 
     public void set_introduction(View v){
@@ -119,10 +119,22 @@ public class SettingsActivity extends AppCompatActivity {
                         text2.setText(inputServer2.getText().toString());
 
                     }
-                }).setNegativeButton("Cancel",null).show();
+                }).setNegativeButton("Cancel", null).show();
 
     }
 
+    public void set_general(View v){
+
+    }
+    public void set_notify(View v){
+
+    }
+    public void set_privacy(View v){
+
+    }
+    public void open_Mynotes(View v){
+
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
