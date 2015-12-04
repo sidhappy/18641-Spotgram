@@ -514,7 +514,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this, DetailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
             } else {
@@ -599,7 +599,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "New User Registered. Login with the new Account", Toast.LENGTH_LONG);
                 toast.show();
-                Intent intent = new Intent(LoginActivity.this, DetailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
 

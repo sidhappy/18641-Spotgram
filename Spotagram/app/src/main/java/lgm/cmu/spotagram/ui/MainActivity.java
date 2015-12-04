@@ -28,20 +28,27 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import lgm.cmu.spotagram.R;
+import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.request.NearByRequest;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
     private Location location;
-
-    private int index;
+    private ArrayList<MarkerOptions> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +57,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        index = 0;
+        markers = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
         // set location manager and location
@@ -86,10 +94,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         try {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0, new LocationListener() {
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,10000,10, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    setCurrentLocation(location);
+                    // disable location update
+                    //setCurrentLocation(location);
                 }
 
 
@@ -97,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
                     try {
-                        location = locationManager.getLastKnownLocation(provider);
-                        setCurrentLocation(location);
+                        //location = locationManager.getLastKnownLocation(provider);
+                        //setCurrentLocation(location);
                     } catch (SecurityException se){
 
                     }
@@ -205,6 +214,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+        UiSettings msettings = mMap.getUiSettings();
+
+        msettings.setCompassEnabled(true);
+        mMap.setMyLocationEnabled(true);
+        msettings.setMyLocationButtonEnabled(true);
+        msettings.setMapToolbarEnabled(false);
+        msettings.setIndoorLevelPickerEnabled(true);
+
+
+
         // get current location
         if(location != null){
             setCurrentLocation(location);
@@ -212,6 +232,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this, "No Location Service!", Toast.LENGTH_SHORT).show();
         }
 
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                if(marker.isInfoWindowShown())
+                    marker.hideInfoWindow();
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                location.setLatitude(marker.getPosition().latitude);
+                location.setLongitude(marker.getPosition().longitude);
+
+
+                CameraPosition cp = new CameraPosition.Builder()
+                        .target(marker.getPosition())
+                        .zoom(15)
+                        .build();
+
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+
+
+
+                marker.showInfoWindow();
+            }
+        });
+
+
+        // Create different marker from database
+        initMarkers();
 
 
         // Add a marker in Sydney and move the camera
@@ -221,14 +275,55 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    private void initMarkers(){
+        NearByRequest request = new NearByRequest(10, 10, 800000, 100, 0);
+        request.setOnNoteReadyListener(new NearByRequest.OnNoteReadyListener() {
+            @Override
+            public void onNoteReady(boolean isSuccess, List<Note> notes) {
+                if (isSuccess) {
+                    // add locations to map
+                    for (Note n : notes) {
+                        markers.add(new MarkerOptions()
+                                .position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                .title(n.getContent())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                        );
+                    }
+
+                    for (MarkerOptions mo: markers){
+                        mMap.addMarker(mo);
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        request.execute();
+    }
+
+
     public void setCurrentLocation(Location location){
 
         LatLng cur = new LatLng(location.getLatitude(),location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(cur).title("Position: " + String.valueOf(index)));
-        index++;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
-        if (index <= 1)
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
+
+       // mMap.clear();
+        mMap.addMarker(new MarkerOptions()
+                .draggable(true)
+                .position(cur)
+                .title("You are HERE"));
+
+        // mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+        // mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
+        CameraPosition cp = new CameraPosition.Builder()
+                .target(cur)
+                .zoom(15)
+                .build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp), 3000, null);
     }
 
     @Override

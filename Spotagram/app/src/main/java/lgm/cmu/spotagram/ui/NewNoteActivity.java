@@ -84,6 +84,8 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
 
+
+
         Toast toast=Toast.makeText(getApplicationContext(),"Send Succeed!",Toast.LENGTH_LONG);
         toast.show();
         return_to_map();
