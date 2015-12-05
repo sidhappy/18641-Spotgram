@@ -2,6 +2,7 @@ package lgm.cmu.spotagram.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lgm.cmu.spotagram.R;
+import lgm.cmu.spotagram.fragment.myNotesFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,6 +31,11 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView text1;
     private TextView text2;
+
+    /**
+     * Check whether it's two pages mode(large equipment )
+     */
+    private boolean isTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,13 @@ public class SettingsActivity extends AppCompatActivity {
         text1=(TextView)findViewById(R.id.userName);
         text2=(TextView)findViewById(R.id.introduction);
 
+
+        if (findViewById(R.id.notes_fragment) != null) {
+            isTwoPane = true;
+        } else {
+            isTwoPane = false;
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -130,11 +145,22 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
     public void set_privacy(View v){
-
+        Intent intent = new Intent(this, New_password_Activity.class);
+        startActivity(intent);
     }
+
     public void open_Mynotes(View v){
-
+//        if (isTwoPane) {
+//            Fragment fragment = new myNotesFragment();
+//            getFragmentManager().beginTransaction().replace(R.id.notes_fragment, fragment).commit();
+//        } else {
+            Intent intent = new Intent(this, MyNotesActivity.class);
+            startActivity(intent);
+//        }
     }
+
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {

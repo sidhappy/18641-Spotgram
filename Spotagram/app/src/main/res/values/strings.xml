@@ -172,4 +172,6 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_my_notes">MyNotesActivity</string>
+    <string name="title_activity_new_password_">New_password_Activity</string>
 </resources>

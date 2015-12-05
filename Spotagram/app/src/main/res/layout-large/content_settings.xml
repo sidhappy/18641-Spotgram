@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:columnCount="2"
         android:orientation="horizontal"
-        android:rowCount="22">
+        android:rowCount="21">
         <TextView
             android:textSize="20dp"
             android:text="Personal Information"
@@ -85,13 +85,13 @@
             android:layout_columnSpan="2"/>
 
         <TextView
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Settings"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Settings"
 
-        android:layout_columnSpan="2"/>
+            android:layout_columnSpan="2"/>
         <RelativeLayout
             android:layout_columnSpan="2">
             <ImageView
@@ -148,25 +148,39 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/pri_image"
                 android:onClick="set_privacy"
-                android:text="Set new password"
+                android:text="Privacy"
                 android:textStyle="bold"
                 android:layout_columnSpan="1"/>
 
         </RelativeLayout>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_gravity="center_horizontal"
-            android:text="My Notes"
-            android:onClick="open_Mynotes"
-            android:layout_columnSpan="2"/>
 
+
+        <LinearLayout
+            android:layout_columnSpan="2"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_gravity="center_vertical"
+                android:text="My Notes"
+                android:onClick="open_Mynotes"
+                />
+            <FrameLayout
+                android:id="@+id/notes_fragment"
+                android:name=""
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            </FrameLayout>
+        </LinearLayout>
 
     </GridLayout>
 
 
-</LinearLayout>
+</ScrollView>
 
 
 

@@ -494,7 +494,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (receive.equals("{\"result\":0}")){
+            if (receive.length()>14){
                 return true;
             }else if (receive.equals("{\"result\":-1}")){
                 error=-1;
@@ -575,7 +575,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
                 return false;
             }
-            if (receive.split(",")[0].equals("{\"result\":0")){
+            if (receive.length()>14){
                 error=0;
                 return true;
             }
@@ -609,7 +609,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }else  if(error==-2){
                     mEmailView.setError("Please try another Email");
                     mEmailView.requestFocus();
-                }else{
+                }else if (error==-3){
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "Registation failed, Please try again", Toast.LENGTH_LONG);
                     toast.show();
