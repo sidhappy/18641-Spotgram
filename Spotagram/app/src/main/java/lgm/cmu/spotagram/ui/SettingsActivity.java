@@ -20,9 +20,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.fragment.myNotesFragment;
+import lgm.cmu.spotagram.request.NewPasswordRequest;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView text1;
     private TextView text2;
-
+    private TextView text3;
     /**
      * Check whether it's two pages mode(large equipment )
      */
@@ -49,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         imageView= (ImageView)findViewById(R.id.photo_image);
         text1=(TextView)findViewById(R.id.userName);
         text2=(TextView)findViewById(R.id.introduction);
-
+        text3=(TextView)findViewById(R.id.ID_OfSetting);
 
         if (findViewById(R.id.notes_fragment) != null) {
             isTwoPane = true;
@@ -101,6 +104,29 @@ public class SettingsActivity extends AppCompatActivity {
                 })
                 .setCancelable(true)
                 .show();
+
+//        String imageName;
+//        String imagePath;
+//        int userID=Integer.parseInt(text3.getText().toString());
+//
+//        UploadProfileRequest request= new UploadProfileRequest(userID,imageName,imagePath);
+//        request.setOnPhotoUpdateListener(new UploadProfileRequest.OnPhotouploadListener() {
+//            @Override
+//            public void onPhotoReplied(boolean isSuccess, int notes) {
+//                if (isSuccess) {
+//
+////                            if (mNearByFragment != null) {
+////                                mNearByFragment.setNotes(notes);
+////                            } else {
+////                                Toast.makeText(mContext, "Fragment err", Toast.LENGTH_SHORT).show();
+////                            }
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+//        request.execute();
 
     }
 

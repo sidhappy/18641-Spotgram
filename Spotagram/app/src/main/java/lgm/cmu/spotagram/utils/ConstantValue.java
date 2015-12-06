@@ -12,6 +12,7 @@ public class ConstantValue {
 	public static final String KEY_USERNAME = "user";
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_PWD = "pwd";
+	public static final String KEY_NEW_PWD = "new_pwd";
 	public static final String KEY_GENDER = "gender";
 	public static final String KEY_RESULT = "result";
 	public static final String KEY_LOC_LONGITUDE = "loc_longitude";

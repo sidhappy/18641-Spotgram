@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lgm.cmu.spotagram.model2.Comment;
 import lgm.cmu.spotagram.request.util.RequestUtil;
 import lgm.cmu.spotagram.utils.ConstantValue;
 
@@ -25,8 +24,8 @@ import lgm.cmu.spotagram.utils.ConstantValue;
  * Created by yulei on 2015/12/1.
  */
 public class NewPasswordRequest extends  BasicRequest {
-    public final static String TAG = "ReplyNoteRequest";
-    public final static String SUB_URL = "ReplyServlet";
+    public final static String TAG = "NewPasswordRequest";
+    public final static String SUB_URL = "ChangePwdServlet";
 
     private int mUserId;
     private String old_password;
@@ -40,7 +39,7 @@ public class NewPasswordRequest extends  BasicRequest {
 
     }
 
-    private OnNoteReplyListener mOnNoteReplyListener;
+    private OnNewPassWordListener mOnNewPwListener;
 
     @Override
     protected String doInBackground(String... params) {
@@ -50,11 +49,16 @@ public class NewPasswordRequest extends  BasicRequest {
             HttpPost httpPost = new HttpPost(BASE_URL+SUB_URL);
             Log.e(TAG, BASE_URL + SUB_URL);
             List <NameValuePair> nvps = new ArrayList<NameValuePair>();
+
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER_ID, mUserId+""));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_PWD, old_password+""));
-            nvps.add(new BasicNameValuePair(ConstantValue.KEY_PWD, new_password));
+            nvps.add(new BasicNameValuePair(ConstantValue.KEY_NEW_PWD, new_password));
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));
             CloseableHttpResponse response = httpclient.execute(httpPost);
+
+            Log.v(mUserId + "", "AAAAAA");
+            Log.v(old_password + "", "AAAAAA");
+            Log.v(new_password + "", "AAAAAA");
 
             try {
                 Log.e(TAG, "code: " + response.getStatusLine().getStatusCode()+"");
@@ -84,26 +88,25 @@ public class NewPasswordRequest extends  BasicRequest {
         return responce;
     }
 
-    public void setOnCommentReadyListener(OnNoteReplyListener lsn) {
-        mOnNoteReplyListener = lsn;
+    public void setOnNewPwReadyListener(OnNewPassWordListener lsn) {
+        mOnNewPwListener = lsn;
     }
 
     @Override
     protected void onPostExecute(String s) {
         if (s == null || s.length() == 0) {
-            mOnNoteReplyListener.onNoteReplied(false, -1);
+            mOnNewPwListener.onNewPwDone(false, -1);
         }
-
-        int commentId = RequestUtil.parseNoteReplyResult(s);
-        if (commentId == -1) {
-            mOnNoteReplyListener.onNoteReplied(false, -1);
+        String uplodeStatus=s;
+        if (uplodeStatus.equals("{\"result\":0}")) {
+            mOnNewPwListener.onNewPwDone(mIsSuccess, 0);
         } else {
-            mOnNoteReplyListener.onNoteReplied(mIsSuccess, commentId);
+            mOnNewPwListener.onNewPwDone(mIsSuccess, -1);
         }
 
     }
 
-    public interface OnNoteReplyListener {
-        void onNoteReplied(boolean isSuccess, int commentId);
+    public interface OnNewPassWordListener {
+        void onNewPwDone(boolean isSuccess, int commentId);
     }
 }
