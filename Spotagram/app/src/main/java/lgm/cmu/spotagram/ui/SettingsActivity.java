@@ -10,11 +10,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.fragment.myNotesFragment;
 import lgm.cmu.spotagram.request.NewPasswordRequest;
+import lgm.cmu.spotagram.request.UploadProfileRequest;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -35,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView text1;
     private TextView text2;
     private TextView text3;
+    private int userId;
     /**
      * Check whether it's two pages mode(large equipment )
      */
@@ -53,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
         text1=(TextView)findViewById(R.id.userName);
         text2=(TextView)findViewById(R.id.introduction);
         text3=(TextView)findViewById(R.id.ID_OfSetting);
+        userId=Integer.parseInt(text3.getText().toString());
 
         if (findViewById(R.id.notes_fragment) != null) {
             isTwoPane = true;
@@ -104,31 +109,33 @@ public class SettingsActivity extends AppCompatActivity {
                 })
                 .setCancelable(true)
                 .show();
-
-//        String imageName;
-//        String imagePath;
-//        int userID=Integer.parseInt(text3.getText().toString());
-//
-//        UploadProfileRequest request= new UploadProfileRequest(userID,imageName,imagePath);
-//        request.setOnPhotoUpdateListener(new UploadProfileRequest.OnPhotouploadListener() {
-//            @Override
-//            public void onPhotoReplied(boolean isSuccess, int notes) {
-//                if (isSuccess) {
-//
-////                            if (mNearByFragment != null) {
-////                                mNearByFragment.setNotes(notes);
-////                            } else {
-////                                Toast.makeText(mContext, "Fragment err", Toast.LENGTH_SHORT).show();
-////                            }
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-//        request.execute();
+        Toast.makeText(this, "Aaaaaaaa 3", Toast.LENGTH_SHORT).show();
 
     }
+
+    public void photo_upload(int userID,String imageName,String imagePath){
+
+        UploadProfileRequest request= new UploadProfileRequest(userID,imageName,imagePath);
+        request.setOnPhotoUpdateListener(new UploadProfileRequest.OnPhotouploadListener() {
+            @Override
+            public void onPhotoReplied(boolean isSuccess, int notes) {
+                if (isSuccess) {
+                    Toast.makeText(getApplicationContext(), "Photo uplode succeed ", Toast.LENGTH_SHORT).show();
+
+//                            if (mNearByFragment != null) {
+//                                mNearByFragment.setNotes(notes);
+//                            } else {
+//                                Toast.makeText(mContext, "Fragment err", Toast.LENGTH_SHORT).show();
+//                            }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+       request.execute();
+    }
+
 
     public void set_name(View v){
         final EditText inputServer = new EditText(this);
@@ -205,6 +212,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void imageFromCamera(int resultCode, Intent data) {
         this.imageView.setImageBitmap((Bitmap) data.getExtras().get("data"));
+        Bitmap bmp=(Bitmap)data.getExtras().get("data");
+        MediaStore.Images.Media.insertImage(getContentResolver(),bmp,"title","description");
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+
+        Toast.makeText(this, "Aaaaaaaa 1", Toast.LENGTH_SHORT).show();
+
+//        photo_upload(userId, imageName, filePath);
+//        Toast.makeText(this, "Aaaaaaaa 2", Toast.LENGTH_SHORT).show();
     }
 
     private void imageFromGallery(int resultCode, Intent data) {
@@ -216,6 +231,21 @@ public class SettingsActivity extends AppCompatActivity {
         String filePath = cursor.getString(columnIndex);
         cursor.close();
         this.imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+
+        //text3=(TextView)findViewById(R.id.ID_OfSetting);
+//        if(text3==null) {
+//            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        Toast.makeText(this, text3.getText().toString(), Toast.LENGTH_SHORT).show();
+//        int userId=Integer.parseInt(text3.getText().toString());
+        String[] temp=filePath.split("/");
+        String imageName=temp[temp.length-1];
+        Log.v(imageName, filePath+userId);
+        Toast.makeText(this, "Aaaaaaaa 1", Toast.LENGTH_SHORT).show();
+
+//        photo_upload(userId, imageName, filePath);
+//        Toast.makeText(this, "Aaaaaaaa 2", Toast.LENGTH_SHORT).show();
     }
 
 }

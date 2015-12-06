@@ -9,9 +9,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_my_notes" tools:context="lgm.cmu.spotagram.ui.MyNotesActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is a small equipment"/>
+    <ListView
+        android:id="@+id/myNotes_list2"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null">
+    </ListView>
 
 </RelativeLayout>

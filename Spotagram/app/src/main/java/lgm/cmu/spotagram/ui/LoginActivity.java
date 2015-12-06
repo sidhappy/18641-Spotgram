@@ -49,6 +49,7 @@ import java.util.Scanner;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.HttpUtil;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
+        ParameterUtils.initPreference(LoginActivity.this);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -495,6 +496,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             if (receive.length()>14){
+
+                int userID=Integer.parseInt(receive.split(",")[1].split(":")[1]);
+                String part=receive.split(",")[2].split(":")[1];
+                String userName=part.substring(1,part.length()-2);
+                ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,userID);
+                ParameterUtils.setStringValue(ConstantValue.JSON_USER_NAME, userName);
                 return true;
             }else if (receive.equals("{\"result\":-1}")){
                 error=-1;
@@ -514,12 +521,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
             } else {
                 if(error == -1){
-                   mEmailView.setError(getString(R.string.error_invalid_email));
+                   mEmailView.setError("The email has not been registered");
                     mEmailView.requestFocus();
                 }
                 if(error==-3){
@@ -576,6 +584,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
             if (receive.length()>14){
+
                 error=0;
                 return true;
             }
