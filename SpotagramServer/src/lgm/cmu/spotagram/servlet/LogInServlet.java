@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 import lgm.cmu.spotagram.db.DBFacade;
 import lgm.cmu.spotagram.model.Model;
 import lgm.cmu.spotagram.model.User;
@@ -67,6 +69,8 @@ public class LogInServlet extends HttpServlet {
 				jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_USER_ERR);
 			} else if (modelUser.getPassword().equals(pwd)) {
 				jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_OK);
+				jsonObject.put(ConstantValue.KEY_USER_ID, modelUser.getId());
+				jsonObject.put(ConstantValue.KEY_USERNAME, modelUser.getUserName());
 			} else {
 				jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_PWD_ERR);
 			}
@@ -74,8 +78,7 @@ public class LogInServlet extends HttpServlet {
 		}
 		
 		
-		PrintWriter out = resp.getWriter();
-        out.println(jsonObject.toString());
+		jsonObject.writeJSONString(resp.getWriter());
 	}
 
 }

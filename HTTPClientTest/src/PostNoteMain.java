@@ -41,7 +41,7 @@ public class PostNoteMain {
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_LOC_LONGITUDE, "10"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_LOC_LATITUDE, "10"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER_ID, "10"));
-            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER, "dawang"));
+            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USERNAME, "dawang"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_INFO, "haha"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_TYPE, "2"));
            

@@ -17,6 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import util.ConstantValue;
+import util.RequestUtil;
 
 /**
  * Main.java 	Version <1.00>	ÏÂÎç8:45:34
@@ -27,7 +28,7 @@ import util.ConstantValue;
  *
  * Email: leiyu@andrew.cmu.edu
  */
-public class GetNoteMain2 {
+public class GetLocationNoteMain {
 	public static final String URL = "http://localhost/SpotagramServer/GetNotesServlet";
 
 	public static void main(String[] args) {
@@ -49,9 +50,11 @@ public class GetNoteMain2 {
 
             try {
                 System.out.println(response.getStatusLine());
+                
                 HttpEntity entity2 = response.getEntity();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity2.getContent()));
-                System.out.println(bufferedReader.readLine());
+                String line = bufferedReader.readLine();
+                RequestUtil.parseNoteList(line);
                 bufferedReader.close();
             } finally {
                 response.close();

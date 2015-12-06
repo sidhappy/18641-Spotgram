@@ -35,13 +35,16 @@ public class User extends Model {
 	@Column(name="email", type =DataType.TEXT)
 	private String email;
 	
+	@Column(name="image_url", type =DataType.TEXT)
+	private String imageURL;
+	
 	public User() {
 		// TODO Auto-generated constructor stub
 		super();
 	}
 
 	public User(String userName, String password, boolean gender,
-			String avatar, String info, String email) {
+			String avatar, String info, String email, String imageURL) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -49,6 +52,7 @@ public class User extends Model {
 		this.avatar = avatar;
 		this.info = info;
 		this.email = email;
+		this.imageURL = imageURL;
 	}
 	
 	public String getUserName() {
@@ -63,7 +67,7 @@ public class User extends Model {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isGender() {
+	public boolean getGender() {
 		return gender;
 	}
 	public void setGender(boolean gender) {
@@ -82,13 +86,20 @@ public class User extends Model {
 		this.info = info;
 	}
 	
-	
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 	
 

@@ -37,7 +37,7 @@ public class RegisterMain {
         try {
             HttpPost httpPost = new HttpPost(URL);
             List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER, "vip"));
+            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USERNAME, "vip"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_EMAIL, "jackqdyulei@gamil.com"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_PWD, "jackqdyulei@gamil.com"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_INFO, "jackqdyulei@gamil.com"));

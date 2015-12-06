@@ -49,15 +49,21 @@ public class RegistrationServlet extends HttpServlet {
 		JSONObject jsonObject = new JSONObject();
 		
 		// check whether the username and email exist in the database
-		List<Model> users = DBFacade.findByFieldName(User.class, "userName", user);
-		List<Model> emails = DBFacade.findByFieldName(User.class, "email", email);
+		List<Model> users = null, emails = null;
+		if (user != null) {
+			users = DBFacade.findByFieldName(User.class, "userName", user);
+		}
+		
+		if (email != null){
+			emails = DBFacade.findByFieldName(User.class, "email", email);
+		}
 		
 		if (users != null && users.size() != 0) {
 			jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_USER_ERR);
 		} else if (emails != null && emails.size() != 0) {
 			jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_EMAIL_ERR);
 		} else {
-			User modelUser = new User(user, pwd, gender, "", info, email);
+			User modelUser = new User(user, pwd, gender, "", info, email, "");
 			if (DBFacade.save(modelUser)) {
 				int user_id = modelUser.getId();
 				jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_OK);
@@ -67,8 +73,7 @@ public class RegistrationServlet extends HttpServlet {
 			}
 		}
 		
-		PrintWriter out = resp.getWriter();
-        out.println(jsonObject.toString());
+		jsonObject.writeJSONString(resp.getWriter());
 	}
 
 }

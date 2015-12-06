@@ -26,7 +26,6 @@ public class Comment extends Model {
 	@Column(name="content", type =DataType.TEXT)
 	private String content;
 	
-	
 	@Column(name="userid", type =DataType.INTEGER)
 	private int userid;
 

@@ -12,6 +12,7 @@ public class ConstantValue {
 	public static final String KEY_USERNAME = "user";
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_PWD = "pwd";
+	public static final String KEY_NEW_PWD = "new_pwd";
 	public static final String KEY_GENDER = "gender";
 	public static final String KEY_RESULT = "result";
 	public static final String KEY_LOC_LONGITUDE = "loc_longitude";
@@ -28,6 +29,9 @@ public class ConstantValue {
 	public static final String KEY_NOTE_LIST = "note_lists";
 	public static final String KEY_COMMENT_LIST = "comment_lists";
 	public static final String KEY_TYPE = "type";
+	public static final String KEY_FILE_NAME = "file_name";
+	public static final String KEY_PROFILE = "profile";
+	public static final String KEY_NOTE_PHOTO = "note_photo";
 	
 	public static final String JSON_NOTE_ID = "note_id";
 	public static final String JSON_COMMENT_ID = "comment_id";
@@ -38,12 +42,19 @@ public class ConstantValue {
 	public static final String JSON_INFO = "info";
 	public static final String JSON_DATE = "date";
 	public static final String JSON_CONTENT = "content";
+	public static final String JSON_USER_EMAIL = "email";
+	public static final String JSON_USER_GENDER = "gender";
+	public static final String JSON_IMAGE_URL = "image_url";
 	
 	public static final int RESULT_OK = 0;
 	public static final int RESULT_USER_ERR = -1;
 	public static final int RESULT_EMAIL_ERR = -2;
 	public static final int RESULT_PWD_ERR = -3;
 	public static final int RESULT_ERR = -4;
+	
+	//public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\SpotagramServer\\WebContent\\";
+	public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\SpotagramServer\\";
+	public static final String IMAGE_URL_PATH = "http://108.39.226.68/SpotagramServer/"; 
 
 	
 	

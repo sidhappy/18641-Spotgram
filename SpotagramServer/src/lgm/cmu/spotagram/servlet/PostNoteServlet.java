@@ -56,7 +56,7 @@ public class PostNoteServlet extends HttpServlet {
 		
 		JSONObject jsonObject = new JSONObject();
 		
-		Note note = new Note(loc_long, loc_lat, date, content, type, userid, userName, "");
+		Note note = new Note(loc_long, loc_lat, date, content, type, userid, userName, "", "");
 		if (DBFacade.save(note)) {
 			int note_id = note.getId();
 			jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_OK);
@@ -65,8 +65,7 @@ public class PostNoteServlet extends HttpServlet {
 			jsonObject.put(ConstantValue.KEY_RESULT, ConstantValue.RESULT_ERR);
 		}
 
-		PrintWriter out = resp.getWriter();
-		out.println(jsonObject.toString());
+		jsonObject.writeJSONString(resp.getWriter());
 	}
 
 }

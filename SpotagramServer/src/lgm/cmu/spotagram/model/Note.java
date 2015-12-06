@@ -44,13 +44,16 @@ public class Note extends Model {
 	@Column(name="info", type =DataType.TEXT)
 	private String info;
 	
+	@Column(name="image_url", type =DataType.TEXT)
+	private String imageURL;
+	
 	public Note() {
 		// TODO Auto-generated constructor stub
 		super();
 	}
 	
 	public Note(float longitude, float latitude, Timestamp date,
-			String content, int type, int userid, String userName, String info) {
+			String content, int type, int userid, String userName, String info, String imageURL) {
 		super();
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -60,6 +63,7 @@ public class Note extends Model {
 		this.userid = userid;
 		this.info = info;
 		this.username = userName;
+		this.imageURL = imageURL;
 	}
 
 	public float getLongitude() {
@@ -124,6 +128,14 @@ public class Note extends Model {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 	
 }

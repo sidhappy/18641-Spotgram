@@ -41,7 +41,7 @@ public class ReplyNoteMain {
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER_ID, "10"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_NOTE_ID, "1"));
             nvps.add(new BasicNameValuePair(ConstantValue.KEY_CONTENT, "haha"));
-            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USER, "lmj"));
+            nvps.add(new BasicNameValuePair(ConstantValue.KEY_USERNAME, "lmj"));
             
            
             

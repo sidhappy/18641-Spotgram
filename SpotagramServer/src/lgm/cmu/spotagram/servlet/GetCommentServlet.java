@@ -58,15 +58,14 @@ public class GetCommentServlet extends HttpServlet {
 			noteObject.put(ConstantValue.JSON_USER_NAME, comment.getUsername());
 			noteObject.put(ConstantValue.JSON_USER_ID, comment.getUserid());
 			noteObject.put(ConstantValue.JSON_CONTENT, comment.getContent());
-			noteObject.put(ConstantValue.JSON_DATE, comment.getDate());
+			noteObject.put(ConstantValue.JSON_DATE, comment.getDate().toString());
 
 			jsonArray.add(noteObject);
 		}
 
-		jsonObject.put(ConstantValue.KEY_COMMENT_LIST, jsonArray.toString());
+		jsonObject.put(ConstantValue.KEY_COMMENT_LIST, jsonArray);
 
-		PrintWriter out = resp.getWriter();
-		out.println(jsonObject.toString());
+		jsonObject.writeJSONString(resp.getWriter());
 	}
 
 }

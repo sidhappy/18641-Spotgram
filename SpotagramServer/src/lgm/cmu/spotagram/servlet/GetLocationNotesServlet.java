@@ -2,6 +2,8 @@ package lgm.cmu.spotagram.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -29,7 +31,7 @@ import lgm.cmu.spotagram.utils.ConstantValue;
  * Email: leiyu@andrew.cmu.edu
  */
 @WebServlet("/GetNotesServlet")
-public class GetNotesServlet extends HttpServlet {
+public class GetLocationNotesServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,11 +48,11 @@ public class GetNotesServlet extends HttpServlet {
 				.getParameter(ConstantValue.KEY_LOC_LONGITUDE));
 		float loc_lat = Float.parseFloat(req
 				.getParameter(ConstantValue.KEY_LOC_LATITUDE));
-		int radius = Integer.parseInt(req
+		int radius = (int)Float.parseFloat(req
 				.getParameter(ConstantValue.KEY_RADIUS_KM));
-		int maxNotes = Integer.parseInt(req
+		int maxNotes = (int)Float.parseFloat(req
 				.getParameter(ConstantValue.KEY_MAX_NOTE));
-		int startNotes = Integer.parseInt(req
+		int startNotes = (int)Float.parseFloat(req
 				.getParameter(ConstantValue.KEY_START_NOTE));
 
 		List<Model> models = DBFacade
@@ -71,15 +73,24 @@ public class GetNotesServlet extends HttpServlet {
 			noteObject.put(ConstantValue.JSON_LOC_LATITUDE, note.getLatitude());
 			noteObject.put(ConstantValue.JSON_CONTENT, note.getContent());
 			noteObject.put(ConstantValue.JSON_INFO, note.getInfo());
-			noteObject.put(ConstantValue.JSON_DATE, note.getDate());
+			noteObject.put(ConstantValue.JSON_DATE, note.getDate().toString());
+			
+			System.out.println(note.getUserid());
+			User user = (User)DBFacade.findById(note.getUserid(), User.class);
+			noteObject.put(ConstantValue.JSON_IMAGE_URL, user.getImageURL()); 
 
 			jsonArray.add(noteObject);
 		}
 
-		jsonObject.put(ConstantValue.KEY_NOTE_LIST, jsonArray.toString());
+		jsonObject.put(ConstantValue.KEY_NOTE_LIST, jsonArray);
+		
+		//Writer writer = new StringWriter();
+		jsonObject.writeJSONString(resp.getWriter());
+		
+		//System.out.print(jsonObject.toString());
 
-		PrintWriter out = resp.getWriter();
-		out.println(jsonObject.toString());
+		//PrintWriter out = resp.getWriter();
+		//out.println(jsonObject.toString());
 	}
 
 }
