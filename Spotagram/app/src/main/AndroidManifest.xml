@@ -50,11 +50,6 @@
             android:label="@string/title_activity_about_me"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity
-            android:name=".ui.DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
         <activity android:name=".test.TestActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

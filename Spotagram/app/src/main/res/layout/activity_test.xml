@@ -55,15 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Detail Page"
-            android:id="@+id/detail"
-            android:onClick="todetail"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="Setting Page"
             android:id="@+id/setting"
             android:onClick="tosetting"
