@@ -250,8 +250,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_aboutme:
-                intent = new Intent(MainActivity.this, AboutMeActivity.class);
-                startActivity(intent);
+                // Set a Dialog to show ABout
+                // TODO
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

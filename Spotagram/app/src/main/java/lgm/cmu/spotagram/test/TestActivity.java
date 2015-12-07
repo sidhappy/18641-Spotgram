@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.ui.AboutMeActivity;
 import lgm.cmu.spotagram.ui.LoginActivity;
 import lgm.cmu.spotagram.ui.MainActivity;
 import lgm.cmu.spotagram.ui.NearByActivity;
@@ -46,8 +45,4 @@ public class TestActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toabout(View view){
-        Intent intent = new Intent(TestActivity.this, AboutMeActivity.class);
-        startActivity(intent);
-    }
 }
