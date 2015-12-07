@@ -2,8 +2,8 @@ package lgm.cmu.spotagram.utils;
 /**
  * ConstantValue.java 	Version <1.00>
  *
- * Copyright(C) 2015-2016  All rights reserved. 
- * Lei YU is a graduate student majoring in Electrical and Electronics Engineering, 
+ * Copyright(C) 2015-2016  All rights reserved.
+ * Lei YU is a graduate student majoring in Electrical and Electronics Engineering,
  * from the ECE department, Carnegie Mellon University, PA 15213, United States.
  *
  * Email: leiyu@andrew.cmu.edu
@@ -32,7 +32,7 @@ public class ConstantValue {
 	public static final String KEY_FILE_NAME = "file_name";
 	public static final String KEY_PROFILE = "profile";
 	public static final String KEY_NOTE_PHOTO = "note_photo";
-	
+
 	public static final String JSON_NOTE_ID = "note_id";
 	public static final String JSON_COMMENT_ID = "comment_id";
 	public static final String JSON_USER_ID = "user_id";
@@ -46,7 +46,7 @@ public class ConstantValue {
 	public static final String JSON_USER_GENDER = "gender";
 	public static final String JSON_USER_IMAGE_URL = "user_image_url";
 	public static final String JSON_NOTE_IMAGE_URL = "note_image_url";
-	
+
 	public static final int RESULT_OK = 0;
 	public static final int RESULT_USER_ERR = -1;
 	public static final int RESULT_EMAIL_ERR = -2;
@@ -55,7 +55,8 @@ public class ConstantValue {
 
 	//public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\SpotagramServer\\WebContent\\";
 	public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\SpotagramServer\\";
-	public static final String IMAGE_URL_PATH = "http://108.39.226.68/SpotagramServer/"; 
+	public static final String IMAGE_URL_PATH = "http://108.39.226.68/SpotagramServer/";
+
 
 
 }
