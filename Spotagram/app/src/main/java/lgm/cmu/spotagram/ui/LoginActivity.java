@@ -302,23 +302,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // finish_Login();
         }
-//        String receive=null;
-//        try{
-//            String parameter=ConstantValue.KEY_EMAIL+"="+this.mEmail+"&"+ConstantValue.KEY_PWD+"="+this.mPassword;
-//            HttpUtil httputil= new HttpUtil();
-////                  Log.v("test","Http is done");
-//            InputStream is=httputil.sendPost(URL,parameter);
-//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-//            receive=bufferedReader.readLine();
-//            Log.v(bufferedReader.readLine(), "reading");
-//            bufferedReader.close();
-//        }catch(IOException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//        String result=receive.split(":")[1].split("}")[0];
-//        if(result.equals("0")) return true;
-//        else return false;
+
     }
 
 
@@ -448,28 +432,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//            // TODO: attempt authentication against a network service.
-//
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
-//
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(mEmail)) {
-//                    // Account exists, return true if the password matches.
-//                    return pieces[1].equals(mPassword);
-//                }
-//            }
-//
-//            // TODO: register the new account here.
-//            return true;
-//        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -500,8 +462,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 int userID=Integer.parseInt(receive.split(",")[1].split(":")[1]);
                 String part=receive.split(",")[2].split(":")[1];
                 String userName=part.substring(1,part.length()-2);
+
                 ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,userID);
-                ParameterUtils.setStringValue(ConstantValue.JSON_USER_NAME, userName);
+                ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL,mEmail);
+                ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, userName);
+                ParameterUtils.setStringValue(ConstantValue.KEY_PWD, mPassword);
+
                 return true;
             }else if (receive.equals("{\"result\":-1}")){
                 error=-1;

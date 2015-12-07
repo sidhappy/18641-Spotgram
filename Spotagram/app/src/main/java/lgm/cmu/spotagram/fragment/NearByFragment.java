@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import java.util.List;
 import lgm.cmu.spotagram.R;
@@ -21,6 +22,8 @@ import lgm.cmu.spotagram.model2.Note;
 public class NearByFragment extends Fragment {
     private static final String TAG = "NearByFragment";
 
+
+    private FrameLayout mPostDetailLayout;
     private ListView mListView;
     private OnNoteSelectListener mOnNoteSelectListener;
     private List<Note> mNotes;

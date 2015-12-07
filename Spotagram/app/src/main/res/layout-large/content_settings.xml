@@ -62,22 +62,10 @@
             android:text="ID" />
 
         <TextView
+            android:id="@+id/ID_OfSetting"
             android:layout_gravity="right"
-            android:text="9527" />
+            android:text="4" />
 
-        <TextView
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:layout_gravity="left"
-            android:text="Introduction" />
-
-        <TextView
-            android:id="@+id/introduction"
-            android:onClick="set_introduction"
-            android:layout_gravity="right"
-            android:singleLine="true"
-            android:maxLength="25"
-            android:text="To be yourself" />
 
         <TextView
             android:layout_marginTop="10dp"

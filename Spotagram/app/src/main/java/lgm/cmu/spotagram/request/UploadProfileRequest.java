@@ -54,9 +54,7 @@ public class UploadProfileRequest extends BasicRequest {
             builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
             File file = new File(imagePath);
-            if (file.exists()) {
-                System.out.println("exist");
-            }
+
 
             builder.addPart("profile", new FileBody(new File(imagePath)));
             builder.addPart(ConstantValue.KEY_USER_ID, new StringBody(mUserId + "", ContentType.TEXT_PLAIN));
@@ -68,11 +66,12 @@ public class UploadProfileRequest extends BasicRequest {
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             try {
-                System.out.println(response.getStatusLine());
+                Log.v(response.getStatusLine().toString(),null);
                 HttpEntity entity2 = response.getEntity();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity2.getContent()));
                 responce=bufferedReader.readLine();
                 bufferedReader.close();
+                return responce;
             } finally {
                 response.close();
             }

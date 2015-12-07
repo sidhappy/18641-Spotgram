@@ -3,6 +3,7 @@ package lgm.cmu.spotagram.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +26,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.fragment.myNotesFragment;
 import lgm.cmu.spotagram.request.NewPasswordRequest;
 import lgm.cmu.spotagram.request.UploadProfileRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -38,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView text1;
     private TextView text2;
     private TextView text3;
-    private int userId;
+    private int userId=0;
     /**
      * Check whether it's two pages mode(large equipment )
      */
@@ -52,12 +59,29 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ParameterUtils.initPreference(SettingsActivity.this);
 
         imageView= (ImageView)findViewById(R.id.photo_image);
         text1=(TextView)findViewById(R.id.userName);
-        text2=(TextView)findViewById(R.id.introduction);
+//        text2=(TextView)findViewById(R.id.introduction);
         text3=(TextView)findViewById(R.id.ID_OfSetting);
-        userId=Integer.parseInt(text3.getText().toString());
+
+        if(ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID)!=0){
+            text3.setText(""+ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID));
+        }
+
+        if(ParameterUtils.getStringValue(ConstantValue.KEY_USERNAME)!=null){
+            text1.setText(""+ParameterUtils.getStringValue(ConstantValue.KEY_USERNAME));
+        }
+
+
+        if(ParameterUtils.getImageString(ConstantValue.IMAGE_URL_PATH)!=null){
+            String imageString=ParameterUtils.getImageString(ConstantValue.IMAGE_URL_PATH);
+            byte[] bitmapByte = Base64.decode(imageString, Base64.DEFAULT);
+            ByteArrayInputStream bais = new ByteArrayInputStream(bitmapByte);
+            Bitmap bitmap = BitmapFactory.decodeStream(bais);
+            imageView.setImageBitmap(bitmap);
+        }
 
         if (findViewById(R.id.notes_fragment) != null) {
             isTwoPane = true;
@@ -109,7 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
                 })
                 .setCancelable(true)
                 .show();
-        Toast.makeText(this, "Aaaaaaaa 3", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -121,12 +144,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onPhotoReplied(boolean isSuccess, int notes) {
                 if (isSuccess) {
                     Toast.makeText(getApplicationContext(), "Photo uplode succeed ", Toast.LENGTH_SHORT).show();
-
-//                            if (mNearByFragment != null) {
-//                                mNearByFragment.setNotes(notes);
-//                            } else {
-//                                Toast.makeText(mContext, "Fragment err", Toast.LENGTH_SHORT).show();
-//                            }
                 } else {
                     Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
                 }
@@ -148,10 +165,12 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         text1.setText(inputServer.getText().toString());
-
+                        ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME,inputServer.getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", null).show();
+
+
     }
 
     public void set_introduction(View v){
@@ -165,13 +184,14 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         text2.setText(inputServer2.getText().toString());
+                        ParameterUtils.setStringValue(ConstantValue.KEY_INFO, inputServer2.getText().toString());
 
                     }
                 }).setNegativeButton("Cancel", null).show();
 
     }
 
-    public void set_general(View v){
+    public void logout(View v){
 
     }
     public void set_notify(View v){
@@ -183,17 +203,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void open_Mynotes(View v){
-//        if (isTwoPane) {
-//            Fragment fragment = new myNotesFragment();
-//            getFragmentManager().beginTransaction().replace(R.id.notes_fragment, fragment).commit();
-//        } else {
             Intent intent = new Intent(this, MyNotesActivity.class);
             startActivity(intent);
-//        }
+
     }
-
-
-
+    
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -212,14 +226,22 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void imageFromCamera(int resultCode, Intent data) {
         this.imageView.setImageBitmap((Bitmap) data.getExtras().get("data"));
+
         Bitmap bmp=(Bitmap)data.getExtras().get("data");
+
         MediaStore.Images.Media.insertImage(getContentResolver(),bmp,"title","description");
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
-        Toast.makeText(this, "Aaaaaaaa 1", Toast.LENGTH_SHORT).show();
+        Log.e(Uri.parse("file://" + Environment.getExternalStorageDirectory()).toString(), "Storage Location");
 
-//        photo_upload(userId, imageName, filePath);
-//        Toast.makeText(this, "Aaaaaaaa 2", Toast.LENGTH_SHORT).show();
+        bmp = scaleDownBitmap(bmp, 100, this);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bitmapByte = baos.toByteArray();
+
+        //store into preference
+        ParameterUtils.setImageByte2String(ConstantValue.IMAGE_URL_PATH, bitmapByte);
+
     }
 
     private void imageFromGallery(int resultCode, Intent data) {
@@ -232,20 +254,39 @@ public class SettingsActivity extends AppCompatActivity {
         cursor.close();
         this.imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
 
-        //text3=(TextView)findViewById(R.id.ID_OfSetting);
-//        if(text3==null) {
-//            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        Toast.makeText(this, text3.getText().toString(), Toast.LENGTH_SHORT).show();
-//        int userId=Integer.parseInt(text3.getText().toString());
+        Bitmap bmp=BitmapFactory.decodeFile(filePath);
+        bmp = scaleDownBitmap(bmp, 100, this);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bitmapByte = baos.toByteArray();
+
+        //store into preference
+        ParameterUtils.setImageByte2String(ConstantValue.IMAGE_URL_PATH, bitmapByte);
+
+
         String[] temp=filePath.split("/");
         String imageName=temp[temp.length-1];
-        Log.v(imageName, filePath+userId);
-        Toast.makeText(this, "Aaaaaaaa 1", Toast.LENGTH_SHORT).show();
+        userId=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+        Log.v(imageName, filePath + userId);
 
-//        photo_upload(userId, imageName, filePath);
-//        Toast.makeText(this, "Aaaaaaaa 2", Toast.LENGTH_SHORT).show();
+        if (userId!=0){
+           photo_upload(userId, imageName, filePath);
+        }
+        else{
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
+    }
 }
