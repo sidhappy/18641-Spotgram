@@ -294,6 +294,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        if(username==null || username.length()<1){
+            userNameView.setError("Please input a username");
+            userNameView.requestFocus();
+            return;
+        }
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -527,10 +532,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mUsername;
         private int error;
 
-        UserRegisterTask(String email, String password,String usernamr) {
-            mEmail = email;
-            mPassword = password;
-            this.mUsername=usernamr;
+        UserRegisterTask(String email, String password,String username) {
+            this.mEmail = email;
+            this.mPassword = password;
+            this.mUsername=username;
         }
 
         @Override
@@ -555,14 +560,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
             if (receive.length()>14){
+                String part=receive.split(",")[1].split(":")[1];
 
-                int userID=Integer.parseInt(receive.split(",")[1].split(":")[1]);
-                String part=receive.split(",")[2].split(":")[1];
-                String userName=part.substring(1,part.length()-2);
+                Log.e(part,"AAAAAAA");
+                int userID=Integer.parseInt(part.substring(0,part.length()-1));
+                Log.e(userID+"AAAA","AAAA");
 
                 ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,userID);
                 ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL,mEmail);
-                ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, userName);
+                ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, mUsername);
                 ParameterUtils.setStringValue(ConstantValue.KEY_PWD, mPassword);
                 error=0;
                 return true;

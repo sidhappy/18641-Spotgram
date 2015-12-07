@@ -78,8 +78,10 @@ public class MyNotesActivity extends AppCompatActivity {
 
 
         IDtext=(TextView)findViewById(R.id.ID_OfSetting);
-//        int userID=Integer.parseInt(IDtext.getText().toString());
+
+
         int userID=4;
+
 
         MyNotesRequest request=new MyNotesRequest(userID);
         request.setOnMyNotesReadyListener(new MyNotesRequest.OnMyNotesReadyListener() {
