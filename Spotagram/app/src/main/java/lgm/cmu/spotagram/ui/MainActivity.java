@@ -66,6 +66,7 @@ import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.model2.Note;
 import lgm.cmu.spotagram.request.NearByRequest;
 import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        ParameterUtils.initPreference(this);
+
 
         markers = new ArrayList<>();
 
@@ -110,14 +115,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // need to send the location
-                Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
 
-                if (location != null) {
-                    intent.putExtra("latitude", String.valueOf(location.getLatitude()));
-                    intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+                Intent intent;
+                if (checkLoginStatus()){
+                    // need to send the location
+                    intent = new Intent(MainActivity.this, NewNoteActivity.class);
+
+                    if (location != null) {
+                        intent.putExtra("latitude", String.valueOf(location.getLatitude()));
+                        intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+                    }
+                    startActivity(intent);
                 }
-                startActivity(intent);
+                else {
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
+
+
             }
         });
 
@@ -192,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new GetLocationNameRequest(mMap).execute(addressUrl);
 
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //得到InputMethodManager的实例
                 if (imm.isActive()) {
 //如果开启
@@ -242,12 +258,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_nearby:
-                intent = new Intent(MainActivity.this, NearByActivity.class);
-                startActivity(intent);
+
+                if (checkLoginStatus()){
+                    intent = new Intent(MainActivity.this, NearByActivity.class);
+                    intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, location.getLatitude());
+                    intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, location.getLongitude());
+                    intent.putExtra("Markers", markers);
+
+                    startActivity(intent);
+                }
+                else {
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 return true;
             case R.id.action_settings:
-                intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+
+
+                if (checkLoginStatus()){
+                    intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
+
                 return true;
             case R.id.action_aboutme:
                 // Set a Dialog to show ABout
@@ -258,6 +296,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
+
+    public boolean checkLoginStatus(){
+
+        int userid = ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+        String username = ParameterUtils.getStringValue(ConstantValue.KEY_USERNAME);
+
+        if (userid > 0 && username.length() > 0){
+            return true;
+        }
+
+        return false;
+    }
 
 
     /**

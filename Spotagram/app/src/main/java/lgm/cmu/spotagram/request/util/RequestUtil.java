@@ -103,4 +103,22 @@ public class RequestUtil {
 
         return -1;
     };
+
+
+    public static int parseNewNoteReplyResult(String jsonStr){
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            int resultCode = jsonObject.getInt(ConstantValue.KEY_RESULT);
+            if (resultCode != ConstantValue.RESULT_OK) {
+                return -1;
+            } else {
+                return jsonObject.getInt(ConstantValue.KEY_NOTE_ID);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
 }

@@ -24,14 +24,24 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import lgm.cmu.spotagram.R;
+import lgm.cmu.spotagram.model2.Comment;
+import lgm.cmu.spotagram.request.NewNoteRequest;
+import lgm.cmu.spotagram.request.ReplyNoteRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 public class NewNoteActivity extends AppCompatActivity {
 
     private TextView locationTV;
     private String latitudeStr;
     private String longitudeStr;
+    private double mlat = 0.0;
+    private double mlon = 0.0;
     private EditText noteET;
     private String targetURL = "noteservlet";
+    private int userid;
+    private String username;
+    private int mNoteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +52,19 @@ public class NewNoteActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        ParameterUtils.initPreference(this);
+
+        userid = ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+        username = ParameterUtils.getStringValue(ConstantValue.KEY_USERNAME);
+
+
         Intent intent1 = getIntent();
 
         latitudeStr = intent1.getStringExtra("latitude");
         longitudeStr = intent1.getStringExtra("longitude");
+
+        mlat = Double.valueOf(latitudeStr);
+        mlon = Double.valueOf(longitudeStr);
 
         locationTV = (TextView)findViewById(R.id.textView);
         noteET = (EditText)findViewById(R.id.editText);
@@ -82,8 +101,26 @@ public class NewNoteActivity extends AppCompatActivity {
             content = "What a Great Day!";
         }
 
+        if (content != null && content.length() != 0) {
 
+            NewNoteRequest request = new NewNoteRequest(userid, username, content, mlat, mlon);
 
+            request.setOnNewNoteListener(new NewNoteRequest.OnNewNoteListener() {
+                @Override
+                public void onNewNote(boolean isSuccess, int noteId) {
+                    if (isSuccess) {
+                        Toast.makeText(getApplicationContext(), "Post success", Toast.LENGTH_SHORT).show();
+                        mNoteId = noteId;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Internet err", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            request.execute();
+        } else {
+            Toast.makeText(getApplicationContext(), "Note is null or no input", Toast.LENGTH_SHORT).show();
+        }
 
 
         Toast toast=Toast.makeText(getApplicationContext(),"Send Succeed!",Toast.LENGTH_LONG);
@@ -91,61 +128,7 @@ public class NewNoteActivity extends AppCompatActivity {
         return_to_map();
     }
 
-    public String sendRequest(String content){
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            String urlParameters = "content=" + URLEncoder.encode(content, "UTF-8") +
-                            "&latitude=" + URLEncoder.encode(latitudeStr, "UTF-8") +
-                            "&longitude=" + URLEncoder.encode(longitudeStr, "UTF-8");
 
-            //Create connection
-            url = new URL(targetURL);
-            connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-
-            connection.setRequestProperty("Content-Length", "" +
-                    Integer.toString(urlParameters.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
-
-            connection.setUseCaches (false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            //Send request
-            DataOutputStream wr = new DataOutputStream (
-                    connection.getOutputStream ());
-            wr.writeBytes (urlParameters);
-            wr.flush ();
-            wr.close ();
-
-            //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return null;
-
-        } finally {
-
-            if(connection != null) {
-                connection.disconnect();
-            }
-        }
-
-    }
 
 
     //return to map view

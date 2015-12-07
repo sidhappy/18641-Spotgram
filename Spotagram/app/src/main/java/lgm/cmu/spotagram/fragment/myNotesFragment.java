@@ -71,7 +71,7 @@ public class myNotesFragment extends Fragment {
         mListView.setAdapter(mNoteListAdapter);
     }
 
-    public void setmOnNoteSelectListener(OnNoteSelectListener lsn) {
+    public void setOnNoteSelectListener(OnNoteSelectListener lsn) {
         mOnNoteSelectListener = lsn;
     }
 
