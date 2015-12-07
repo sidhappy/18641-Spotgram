@@ -52,28 +52,10 @@ public class ConstantValue {
 	public static final int RESULT_EMAIL_ERR = -2;
 	public static final int RESULT_PWD_ERR = -3;
 	public static final int RESULT_ERR = -4;
-	
-<<<<<<< Updated upstream
+
 	//public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\SpotagramServer\\WebContent\\";
 	public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\SpotagramServer\\";
 	public static final String IMAGE_URL_PATH = "http://108.39.226.68/SpotagramServer/"; 
-=======
-<<<<<<< HEAD
-	public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\SpotagramServer\\WebContent\\";
-	public static final String IMAGE_URL_PATH = "http://localhost/SpotagramServer/";
 
-
-	public static final int SUCCESS_RESULT = 0;
-	public static final int FAILURE_RESULT = 1;
-
-	public static final int USE_ADDRESS_NAME = 1;
-	public static final int USE_ADDRESS_LOCATION = 2;
-
-=======
-	//public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\SpotagramServer\\WebContent\\";
-	public static final String IMAGE_DISK_PATH = "D:\\JavaCourseWorkspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\SpotagramServer\\";
-	public static final String IMAGE_URL_PATH = "http://108.39.226.68/SpotagramServer/"; 
->>>>>>> origin/master
->>>>>>> Stashed changes
 
 }

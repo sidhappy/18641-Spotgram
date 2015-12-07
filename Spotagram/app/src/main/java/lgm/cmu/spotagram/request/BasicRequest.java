@@ -8,5 +8,6 @@ import android.os.AsyncTask;
 public abstract class BasicRequest extends AsyncTask<String, Integer, String> {
     public static final String BASE_URL = "http://128.237.186.126/SpotagramServer/";
     //public static final String BASE_URL = "http://108.39.226.68/SpotagramServer/";
+
     protected boolean mIsSuccess = false;
 }

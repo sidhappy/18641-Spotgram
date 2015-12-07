@@ -83,11 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
 
-        if (findViewById(R.id.notes_fragment) != null) {
-            isTwoPane = true;
-        } else {
-            isTwoPane = false;
-        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -141,9 +137,9 @@ public class SettingsActivity extends AppCompatActivity {
         UploadProfileRequest request= new UploadProfileRequest(userID,imageName,imagePath);
         request.setOnPhotoUpdateListener(new UploadProfileRequest.OnPhotouploadListener() {
             @Override
-            public void onPhotoReplied(boolean isSuccess, int notes) {
+            public void onPhotoReplied(boolean isSuccess, int uploadid) {
                 if (isSuccess) {
-                    Toast.makeText(getApplicationContext(), "Photo uplode succeed ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Photo upload succeed ", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
                 }
@@ -267,7 +263,7 @@ public class SettingsActivity extends AppCompatActivity {
         String[] temp=filePath.split("/");
         String imageName=temp[temp.length-1];
         userId=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
-        Log.v(imageName, filePath + userId);
+        Log.v("AAAAAAAA", filePath + userId);
 
         if (userId!=0){
            photo_upload(userId, imageName, filePath);

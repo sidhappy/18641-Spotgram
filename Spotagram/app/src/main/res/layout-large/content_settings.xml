@@ -136,7 +136,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/pri_image"
                 android:onClick="set_privacy"
-                android:text="Privacy"
+                android:text="Set New Password"
                 android:textStyle="bold"
                 android:layout_columnSpan="1"/>
 
@@ -152,17 +152,11 @@
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center_horizontal"
                 android:text="My Notes"
                 android:onClick="open_Mynotes"
                 />
-            <FrameLayout
-                android:id="@+id/notes_fragment"
-                android:name=""
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
 
-            </FrameLayout>
         </LinearLayout>
 
     </GridLayout>

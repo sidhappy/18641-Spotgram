@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="logout"
-                android:text="Log Out"
+                android:text="General"
                 android:textStyle="bold"
                 android:layout_columnSpan="1"/>
         </RelativeLayout>

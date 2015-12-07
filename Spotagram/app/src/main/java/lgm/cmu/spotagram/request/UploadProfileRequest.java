@@ -66,7 +66,7 @@ public class UploadProfileRequest extends BasicRequest {
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             try {
-                Log.v(response.getStatusLine().toString(),null);
+//                Log.v(response.getStatusLine().toString(),null);
                 HttpEntity entity2 = response.getEntity();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity2.getContent()));
                 responce=bufferedReader.readLine();
@@ -98,16 +98,17 @@ public class UploadProfileRequest extends BasicRequest {
             mOnPhotoUpdateListener.onPhotoReplied(false, -1);
         }
 
-        int commentId = RequestUtil.parseNoteReplyResult(s);
-        if (commentId == -1) {
+        String upload_status=s;
+        Log.e(s,"From upload profile");
+        if (!upload_status.equals("{\"result\":0}")) {
             mOnPhotoUpdateListener.onPhotoReplied(false, -1);
         } else {
-            mOnPhotoUpdateListener.onPhotoReplied(mIsSuccess, commentId);
+            mOnPhotoUpdateListener.onPhotoReplied(true, 0);
         }
 
     }
 
     public interface OnPhotouploadListener {
-        void onPhotoReplied(boolean isSuccess, int commentId);
+        void onPhotoReplied(boolean isSuccess, int statusId);
     }
 }
