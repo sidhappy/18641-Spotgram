@@ -23,6 +23,7 @@ public class Note extends Model {
 	private int userid;
 	private String username;
 	private String userURL;
+	private String noteImageURL;
 	private String info;
 	
 	public Note() {
@@ -31,7 +32,7 @@ public class Note extends Model {
 	}
 	
 	public Note(float longitude, float latitude, Date date,
-			String content, int type, int userid, String userName, String info, String url) {
+			String content, int type, int userid, String userName, String info, String usrURL, String noteURL) {
 		super();
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -41,7 +42,8 @@ public class Note extends Model {
 		this.userid = userid;
 		this.info = info;
 		this.username = userName;
-		this.userURL = url;
+		this.userURL = usrURL;
+        this.noteImageURL = noteURL;
 	}
 
 	public float getLongitude() {
@@ -115,4 +117,12 @@ public class Note extends Model {
 	public void setUserURL(String url) {
 		this.userURL = url;
 	}
+
+    public String getNoteImageURL() {
+        return noteImageURL;
+    }
+
+    public void setNoteImageURL(String url) {
+        this.noteImageURL = url;
+    }
 }

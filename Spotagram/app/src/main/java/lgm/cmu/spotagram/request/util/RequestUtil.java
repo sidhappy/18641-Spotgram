@@ -34,7 +34,8 @@ public class RequestUtil {
                 float latitude = Float.parseFloat(noteObject.getString(ConstantValue.JSON_LOC_LATITUDE));
                 String content = noteObject.getString(ConstantValue.JSON_CONTENT);
                 String info = noteObject.getString(ConstantValue.JSON_INFO);
-                String url = noteObject.getString(ConstantValue.JSON_IMAGE_URL);
+                String userImageURL = noteObject.getString(ConstantValue.JSON_USER_IMAGE_URL);
+                String noteImageURL = noteObject.getString(ConstantValue.JSON_NOTE_IMAGE_URL);
 
                 String dateStr = noteObject.getString(ConstantValue.JSON_DATE);
                 Date date = null;
@@ -44,7 +45,7 @@ public class RequestUtil {
                    // e.printStackTrace();
                 }
 
-                Note note = new Note(longitude, latitude, date, content, 0, userId, userName, info, url);
+                Note note = new Note(longitude, latitude, date, content, 0, userId, userName, info, userImageURL, noteImageURL);
                 note.setId(noteId);
                 notes.add(note);
             }

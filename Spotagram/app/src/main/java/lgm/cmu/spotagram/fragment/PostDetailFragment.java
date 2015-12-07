@@ -33,6 +33,7 @@ import lgm.cmu.spotagram.request.ReplyNoteRequest;
  */
 public class PostDetailFragment extends Fragment {
     private ImageView mProfileImage;
+    private ImageView mNoteImage;
     private TextView mNameTextView;
     private TextView mInfoTextView;
     private TextView mDateTextView;
@@ -64,6 +65,7 @@ public class PostDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mProfileImage = (ImageView) view.findViewById(R.id.imageview_user_profile);
+        mNoteImage = (ImageView) view.findViewById(R.id.imageview_noteview);
         mNameTextView = (TextView) view.findViewById(R.id.textview_user_name);
         mInfoTextView = (TextView) view.findViewById(R.id.textview_note_info);
         mDateTextView = (TextView) view.findViewById(R.id.textview_date);
@@ -99,10 +101,18 @@ public class PostDetailFragment extends Fragment {
         imageLoader.displayImage(url, mProfileImage);
     }
 
+    private void setNoteImage(String url) {
+        if (url == null || url.equals("")) return;
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(url, mNoteImage);
+    }
+
     public void setNoteInfo(Note note) {
         mNote = note;
         setNoteInfo(note.getUsername(), note.getContent(), note.getDate());
         setUserProfile(note.getUserURL());
+        setNoteImage(note.getNoteImageURL());
     }
 
     public void requestReplyNote() {

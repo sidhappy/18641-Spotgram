@@ -126,7 +126,7 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
     // nothing, test function
     private void setTextData() {
         List<Note> notes = new ArrayList<>();
-        Note note = new Note(1, 1, new Date(System.currentTimeMillis()), "haha", 0, 0, "jack", "info", "");
+        Note note = new Note(1, 1, new Date(System.currentTimeMillis()), "haha", 0, 0, "jack", "info", "", "");
         note.setId(1);
         notes.add(note);
 

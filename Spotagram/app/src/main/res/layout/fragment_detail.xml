@@ -3,12 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="10dip">
 
     <ImageView
+        android:layout_marginTop="15dip"
         android:id="@+id/imageview_user_profile"
         android:layout_width="100dip"
-        android:layout_height="100dip" />
+        android:layout_height="100dip"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/textview_user_name"
@@ -17,6 +20,7 @@
         android:layout_marginLeft="15dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageview_user_profile"
         android:layout_toRightOf="@id/imageview_user_profile"
         android:text="usr1" />
 
@@ -42,10 +46,13 @@
 
     <ImageView
         android:id="@+id/imageview_noteview"
+        android:layout_marginTop="20dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxHeight="180dip"
         android:layout_below="@id/imageview_user_profile"
-        android:src="@drawable/ic_info_black_24dp" />
+        android:src="@drawable/ic_info_black_24dp"
+        android:scaleType="fitCenter"/>
 
     <LinearLayout
         android:id="@+id/layout_input_comment"
@@ -54,7 +61,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:orientation="horizontal"
-        android:layout_margin="5dip">
+        android:layout_marginTop="15dip">
         <EditText
             android:id="@+id/edittext_comment"
             android:layout_width="0dip"
