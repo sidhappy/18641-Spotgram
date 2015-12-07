@@ -48,11 +48,12 @@
             android:text="Name" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/userName"
             android:onClick="set_name"
             android:layout_gravity="right"
             android:maxLength="15"
-            android:text="Kobe" />
+            android:text="" />
 
 
         <TextView
@@ -62,23 +63,11 @@
             android:text="ID" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/ID_OfSetting"
             android:layout_gravity="right"
-            android:text="9527" />
+            android:text="" />
 
-        <TextView
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:layout_gravity="left"
-            android:text="Introduction" />
-
-        <TextView
-            android:id="@+id/introduction"
-            android:onClick="set_introduction"
-            android:layout_gravity="right"
-            android:singleLine="true"
-            android:maxLength="25"
-            android:text="To be yourself" />
 
         <TextView
             android:layout_marginTop="10dp"
@@ -128,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:onClick="set_general"
+                android:onClick="logout"
                 android:text="Log Out"
                 android:textStyle="bold"
                 android:layout_columnSpan="1"/>

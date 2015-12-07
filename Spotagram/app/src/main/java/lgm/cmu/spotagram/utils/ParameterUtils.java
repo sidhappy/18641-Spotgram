@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Base64;
+import android.util.Log;
 
 
 /**
@@ -21,48 +23,65 @@ public class ParameterUtils {
 	public static final String KEY_SV_ON = "speakerVeriOn";
 
 	public static final String PREFERENCE_NAME = "setting";
-	
+
 	private static SharedPreferences preferences;
-	
+
 	public static void initPreference(Context context) {
 		preferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_WORLD_WRITEABLE);
 	}
-	
+
 	public static String getStringValue(String key) {
-		if(preferences == null) 
+		if (preferences == null)
 			return null;
 		String value = preferences.getString(key, "");
 		return value;
 	}
-	
+
 	public static boolean getBooleanValue(String key) {
-		if(preferences == null) 
+		if (preferences == null)
 			return false;
 		return preferences.getBoolean(key, false);
 	}
-	
+
 	public static int getIntValue(String key) {
-		if(preferences == null) 
+		if (preferences == null)
 			return 0;
 		return preferences.getInt(key, 0);
 	}
-	
-	public static void setStringValue(String key,String info) {
+
+	public static void setStringValue(String key, String info) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(key, info);
 		editor.commit();
 	}
 
-	public static void setBooleanValue(String key,Boolean info) {
+	public static void setBooleanValue(String key, Boolean info) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(key, info);
 		editor.commit();
 	}
-	
+
 	public static void setIntValue(String key, int info) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, info);
 		editor.commit();
 	}
-	
+
+	public static void setImageByte2String(String key, byte[] bitmapByte) {
+
+		SharedPreferences.Editor editor = preferences.edit();
+		String imageString = new String(Base64.encodeToString(bitmapByte, Base64.DEFAULT));
+		editor.putString(key, imageString);
+		editor.commit();
+
+	}
+
+
+	public static String getImageString(String key) {
+		if (preferences.getString(key, "") == null) {
+			return null;
+		}
+		return preferences.getString(key, "");
+	}
+
 }
