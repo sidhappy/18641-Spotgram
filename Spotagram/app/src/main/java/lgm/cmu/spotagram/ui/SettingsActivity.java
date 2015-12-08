@@ -3,6 +3,8 @@ package lgm.cmu.spotagram.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import lgm.cmu.spotagram.R;
+import lgm.cmu.spotagram.fragment.SetNewPasswordFragment;
 import lgm.cmu.spotagram.fragment.myNotesFragment;
 import lgm.cmu.spotagram.request.NewPasswordRequest;
 import lgm.cmu.spotagram.request.UploadProfileRequest;
@@ -45,11 +49,12 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView text1;
     private TextView text2;
     private TextView text3;
+    private FrameLayout fragment_set;
     private int userId=0;
     /**
      * Check whether it's two pages mode(large equipment )
      */
-    private boolean isTwoPane;
+    private boolean isTwoPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         imageView= (ImageView)findViewById(R.id.photo_image);
         text1=(TextView)findViewById(R.id.userName);
-//        text2=(TextView)findViewById(R.id.introduction);
         text3=(TextView)findViewById(R.id.ID_OfSetting);
 
         if(ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID)!=0){
@@ -82,17 +86,12 @@ public class SettingsActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeStream(bais);
             imageView.setImageBitmap(bitmap);
         }
+        fragment_set=(FrameLayout)findViewById(R.id.frag_setting);
+        if(fragment_set!=null){
+            isTwoPage=true;
 
+        }
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
 
@@ -169,23 +168,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void set_introduction(View v){
-        final EditText inputServer2 = new EditText(this);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Briefly introduce yourself")
-                .setIcon(android.R.drawable.ic_input_add)
-                .setView(inputServer2)
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        text2.setText(inputServer2.getText().toString());
-                        ParameterUtils.setStringValue(ConstantValue.KEY_INFO, inputServer2.getText().toString());
-
-                    }
-                }).setNegativeButton("Cancel", null).show();
-
-    }
 
     public void logout(View v){
 
@@ -194,13 +176,32 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
     public void set_privacy(View v){
-        Intent intent = new Intent(this, New_password_Activity.class);
-        startActivity(intent);
+        if(isTwoPage!=true) {
+            Intent intent = new Intent(this, New_password_Activity.class);
+            startActivity(intent);
+        }else{
+
+            FragmentManager fm = getFragmentManager();
+            // 开启Fragment事务
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.frag_setting, new SetNewPasswordFragment());
+            transaction.commit();
+
+        }
     }
 
     public void open_Mynotes(View v){
+        if(isTwoPage!=true){
             Intent intent = new Intent(this, MyNotesActivity.class);
             startActivity(intent);
+        }else{
+            FragmentManager fm = getFragmentManager();
+            // 开启Fragment事务
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.frag_setting, new myNotesFragment());
+            transaction.commit();
+        }
+
 
     }
     

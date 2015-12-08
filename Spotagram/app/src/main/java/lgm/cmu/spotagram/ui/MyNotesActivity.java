@@ -28,6 +28,8 @@ import lgm.cmu.spotagram.model2.Note;
 import lgm.cmu.spotagram.request.CommentsRequest;
 import lgm.cmu.spotagram.request.MyNotesRequest;
 import lgm.cmu.spotagram.request.NearByRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 public class MyNotesActivity extends AppCompatActivity {
 
@@ -80,7 +82,7 @@ public class MyNotesActivity extends AppCompatActivity {
         IDtext=(TextView)findViewById(R.id.ID_OfSetting);
 
 
-        int userID=4;
+        int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
 
 
         MyNotesRequest request=new MyNotesRequest(userID);
@@ -89,6 +91,9 @@ public class MyNotesActivity extends AppCompatActivity {
             public void onNoteReady(boolean isSuccess, List<Note> notes) {
                 if (isSuccess) {
                     setNotes(notes);
+                    if(notes.size()<1){
+                        Toast.makeText(MyNotesActivity.this,"You haven't posted any notes", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Network err", Toast.LENGTH_SHORT).show();
                 }

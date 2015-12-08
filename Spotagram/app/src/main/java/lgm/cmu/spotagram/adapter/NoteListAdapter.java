@@ -70,6 +70,7 @@ public class NoteListAdapter extends BaseAdapter {
         holder.mDateTextView.setText(mSimpleDateFormat.format(note.getDate()));
 
         ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(convertView.getContext()));
         imageLoader.displayImage(note.getUserURL(), holder.mImageView);
 
         return convertView;

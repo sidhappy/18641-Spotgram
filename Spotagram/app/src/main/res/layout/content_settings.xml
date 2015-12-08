@@ -22,6 +22,7 @@
         android:rowCount="22">
         <TextView
             android:textSize="20dp"
+            android:textColor="#6A5ACD"
             android:text="Personal Information"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
@@ -75,11 +76,12 @@
             android:layout_columnSpan="2"/>
 
         <TextView
+            android:textColor="#6A5ACD"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textSize="20dp"
         android:layout_gravity="center_horizontal"
-        android:text="Settings"
+        android:text="Setting"
 
         android:layout_columnSpan="2"/>
         <RelativeLayout
@@ -144,6 +146,7 @@
 
         </RelativeLayout>
         <TextView
+            android:textColor="#6A5ACD"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:textSize="20dp"

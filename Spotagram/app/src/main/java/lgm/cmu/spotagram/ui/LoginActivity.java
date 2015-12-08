@@ -59,11 +59,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-//    static final String URL_login = "http://108.39.226.68/SpotagramServer/LoginServlet";
-//    static final String URL_register = "http://108.39.226.68/SpotagramServer/RegisterServlet";
+    static final String URL_login = "http://108.39.226.68/SpotagramServer/LoginServlet";
+    static final String URL_register = "http://108.39.226.68/SpotagramServer/RegisterServlet";
 
-    static final String URL_login = "http://128.237.186.126/SpotagramServer/LoginServlet";
-    static final String URL_register = "http://128.237.186.126/SpotagramServer/RegisterServlet";
+//    static final String URL_login = "http://128.237.186.126/SpotagramServer/LoginServlet";
+//    static final String URL_register = "http://128.237.186.126/SpotagramServer/RegisterServlet";
 
 
     /**
@@ -561,11 +561,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             if (receive.length()>14){
                 String part=receive.split(",")[1].split(":")[1];
-
-                Log.e(part,"AAAAAAA");
                 int userID=Integer.parseInt(part.substring(0,part.length()-1));
-                Log.e(userID+"AAAA","AAAA");
-
                 ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,userID);
                 ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL,mEmail);
                 ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, mUsername);
