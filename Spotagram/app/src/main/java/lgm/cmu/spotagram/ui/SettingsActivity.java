@@ -37,6 +37,7 @@ import lgm.cmu.spotagram.fragment.SetNewPasswordFragment;
 import lgm.cmu.spotagram.fragment.myNotesFragment;
 import lgm.cmu.spotagram.request.NewPasswordRequest;
 import lgm.cmu.spotagram.request.UploadProfileRequest;
+import lgm.cmu.spotagram.test.TestActivity;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.ParameterUtils;
 

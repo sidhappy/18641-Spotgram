@@ -51,8 +51,8 @@ public class myNotesFragment extends Fragment {
         mListView = (ListView) view.findViewById(R.id.myNotes_list);
 
 
-        //int userID= 4;
-        int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+        int userID= 23;
+        //int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
 
 
         MyNotesRequest request=new MyNotesRequest(userID);
@@ -80,14 +80,14 @@ public class myNotesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (mOnNoteSelectListener != null) {
-//                    mOnNoteSelectListener.onNoteSelect(mNotes.get(position));
-//                }
-//            }
-//        });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mOnNoteSelectListener != null) {
+                    mOnNoteSelectListener.onNoteSelect(mNotes.get(position));
+                }
+            }
+        });
 
         if (mNoteListAdapter != null) {
             mListView.setAdapter(mNoteListAdapter);
