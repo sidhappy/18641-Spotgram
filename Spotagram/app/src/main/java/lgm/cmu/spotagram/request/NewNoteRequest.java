@@ -90,6 +90,12 @@ public class NewNoteRequest extends BasicRequest{
         return responce;
     }
 
+
+
+
+
+
+
     public void setOnNewNoteListener(OnNewNoteListener lsn) {
         mOnNewNoteListener = lsn;
     }

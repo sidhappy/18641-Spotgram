@@ -31,6 +31,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Insert Image"
+                    android:onClick="set_photo"/>
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,6 +54,15 @@
                 android:text="Location: 6224 5th Ave"
                 android:id="@+id/textView"
                 android:layout_margin="10dp" />
+
+            <ImageView
+                android:layout_height="150sp"
+                android:layout_width="150sp"
+                android:id="@+id/photo_image"
+                android:onClick="set_photo"
+                android:layout_gravity="left"
+                android:src="@drawable/sample_android" />
+
 
         </LinearLayout>
     </ScrollView>

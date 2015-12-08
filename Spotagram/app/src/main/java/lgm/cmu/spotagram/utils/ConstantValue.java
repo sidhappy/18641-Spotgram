@@ -30,6 +30,7 @@ public class ConstantValue {
 	public static final String KEY_COMMENT_LIST = "comment_lists";
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_FILE_NAME = "file_name";
+	public static final String KEY_NOTE_IMAGE_NAME = "note_photo_name";
 	public static final String KEY_PROFILE = "profile";
 	public static final String KEY_NOTE_PHOTO = "note_photo";
 

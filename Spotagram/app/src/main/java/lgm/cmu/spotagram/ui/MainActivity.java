@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LocationManager locationManager;
     private Location location;
+    private Marker mMarker;
     private ArrayList<MarkerOptions> markers;
+    private ArrayList<Marker> mks;
     private Geocoder geoCoder;
 
     private static final String TAG = "MAIN_ACTIVITY";
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         markers = new ArrayList<>();
+        mks = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
 
                 Intent intent;
-                if (checkLoginStatus()){
+                if (checkLoginStatus()) {
                     // need to send the location
                     intent = new Intent(MainActivity.this, NewNoteActivity.class);
 
@@ -126,12 +129,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         intent.putExtra("longitude", String.valueOf(location.getLongitude()));
                     }
                     startActivity(intent);
-                }
-                else {
+                } else {
                     intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-
 
 
             }
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void setLoction(double lat, double lon){
         location.setLatitude(lat);
-        location.setLatitude(lon);
+        location.setLongitude(lon);
     }
 
 
@@ -325,13 +326,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
 
-        UiSettings msettings = mMap.getUiSettings();
 
-        msettings.setCompassEnabled(true);
-        mMap.setMyLocationEnabled(true);
-        msettings.setMyLocationButtonEnabled(true);
-        msettings.setMapToolbarEnabled(false);
-        msettings.setIndoorLevelPickerEnabled(true);
 
 
 
@@ -374,6 +369,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mMarker.remove();
+
+                mMarker = mMap.addMarker(new MarkerOptions()
+                        .draggable(true)
+                        .position(latLng)
+                        .title("You are HERE"));
+
+                // mMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
+                // mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
+                CameraPosition cp = new CameraPosition.Builder()
+                        .target(latLng)
+                        .zoom(15)
+                        .build();
+
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp), 3000, null);
+            }
+        });
+
         // Create different marker from database
         initMarkers();
 
@@ -401,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
 
                     for (MarkerOptions mo: markers){
-                        mMap.addMarker(mo);
+                        mks.add(mMap.addMarker(mo));
                     }
 
                 } else {
@@ -421,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
        // mMap.clear();
 
-        Marker curMarker = mMap.addMarker(new MarkerOptions()
+        mMarker = mMap.addMarker(new MarkerOptions()
                 .draggable(true)
                 .position(cur)
                 .title("You are HERE"));
@@ -571,7 +588,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             // mMap.clear();
 
-            Marker curMarker = mMap.addMarker(new MarkerOptions()
+            mMarker.remove();
+
+            mMarker = mMap.addMarker(new MarkerOptions()
                     .draggable(true)
                     .position(cur)
                     .title("You are HERE"));

@@ -7,33 +7,32 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import lgm.cmu.spotagram.request.util.RequestUtil;
 import lgm.cmu.spotagram.utils.ConstantValue;
 
 /**
- * Created by MiaojunLi on 15/12/4.
+ * Created by dawang on 12/7/15.
  */
-public class UploadProfileRequest extends BasicRequest {
-    public final static String TAG = "UploadProfileRequest";
-    public final static String SUB_URL = "UploadProfileServlet";
+public class UploadNoteImageRequest extends BasicRequest{
+    public final static String TAG = "UploadNewPhotoServlet";
+    public final static String SUB_URL = "UploadNewPhotoServlet";
     public static String imageName ;
     public static String imagePath ;
 
-    private int mUserId;
+    private int mNoteId;
 
-    public UploadProfileRequest(int mUserId,String imageName,String imagePath) {
-        this.mUserId = mUserId;
+    public UploadNoteImageRequest(int noteId,String imageName,String imagePath) {
+        this.mNoteId = noteId;
         this.imageName=imageName;
         this.imagePath=imagePath;
 
@@ -56,8 +55,8 @@ public class UploadProfileRequest extends BasicRequest {
             File file = new File(imagePath);
 
 
-            builder.addPart(ConstantValue.KEY_PROFILE, new FileBody(new File(imagePath)));
-            builder.addPart(ConstantValue.KEY_USER_ID, new StringBody(mUserId + "", ContentType.TEXT_PLAIN));
+            builder.addPart(ConstantValue.KEY_NOTE_PHOTO, new FileBody(new File(imagePath)));
+            builder.addPart(ConstantValue.KEY_NOTE_ID, new StringBody(mNoteId + "", ContentType.TEXT_PLAIN));
             builder.addPart(ConstantValue.KEY_FILE_NAME, new StringBody(imageName, ContentType.TEXT_PLAIN));
 
             HttpEntity httpEntity = builder.build();
@@ -111,4 +110,5 @@ public class UploadProfileRequest extends BasicRequest {
     public interface OnPhotouploadListener {
         void onPhotoReplied(boolean isSuccess, int statusId);
     }
+
 }
