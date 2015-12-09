@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker mMarker;
     private ArrayList<MarkerOptions> markers;
     private ArrayList<Marker> mks;
+    private ArrayList<String> passLocArr;
     private Geocoder geoCoder;
 
     private static final String TAG = "MAIN_ACTIVITY";
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         markers = new ArrayList<>();
         mks = new ArrayList<>();
+        passLocArr = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -125,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     intent = new Intent(MainActivity.this, NewNoteActivity.class);
 
                     if (location != null) {
-                        intent.putExtra("latitude", String.valueOf(location.getLatitude()));
-                        intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+                        intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, String.valueOf(location.getLatitude()));
+                        intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, String.valueOf(location.getLongitude()));
                     }
                     startActivity(intent);
                 } else {
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     intent = new Intent(MainActivity.this, NearByActivity.class);
                     intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, location.getLatitude());
                     intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, location.getLongitude());
-                    intent.putExtra("Markers", markers);
+                    intent.putStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR, passLocArr);
 
                     startActivity(intent);
                 }
@@ -417,6 +419,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .title(n.getContent())
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                         );
+
+                        // prepare the passArray
+                        passLocArr.add(n.getLatitude()+"");
+                        passLocArr.add(n.getLongitude()+"");
+                        passLocArr.add(n.getContent());
                     }
 
                     for (MarkerOptions mo: markers){

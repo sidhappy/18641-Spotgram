@@ -25,28 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText"
-                android:lines="4"
+                android:lines="2"
                 android:hint="Input new note" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Insert Image"
-                    android:onClick="set_photo"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Send"
-                    android:onClick="send_and_return"/>
-            </LinearLayout>
-
 
             <TextView
                 android:layout_width="match_parent"

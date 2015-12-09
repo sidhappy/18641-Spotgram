@@ -3,6 +3,7 @@ package lgm.cmu.spotagram.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -32,6 +34,7 @@ import lgm.cmu.spotagram.model2.Comment;
 import lgm.cmu.spotagram.model2.Note;
 import lgm.cmu.spotagram.request.CommentsRequest;
 import lgm.cmu.spotagram.request.NearByRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
 
 public class NearByActivity extends AppCompatActivity implements NearByFragment.OnNoteSelectListener {
     private static final String TAG ="NearByActivity";
@@ -40,6 +43,10 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
     private FrameLayout mNearByLayout;
     private FrameLayout mPostDetailLayout;
 
+    private double mLat;
+    private double mLon;
+    private ArrayList<String> markers;
+
     private Context mContext;
 
     @Override
@@ -47,6 +54,13 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_near_by);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Intent intent1 = getIntent();
+        mLat = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LATITUDE, 0.0);
+        mLon = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LONGITUDE, 0.0);
+        markers = intent1.getStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR);
+
 
         initComponments();
         initViews();
@@ -76,6 +90,14 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
         mNearByLayout = (FrameLayout) findViewById(R.id.layout_near_by);
         if (mNearByLayout != null) {
             mNearByFragment = new NearByFragment();
+
+            Bundle data = new Bundle();
+            data.putString(ConstantValue.KEY_LOC_LATITUDE, mLat+"");
+            data.putString(ConstantValue.KEY_LOC_LONGITUDE, mLon+"");
+            data.putStringArrayList(ConstantValue.KEY_LOC_STRING_ARR, markers);
+            mNearByFragment.setArguments(data);
+
+
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(mNearByLayout.getId(), mNearByFragment,
                     NearByFragment.class.getName());

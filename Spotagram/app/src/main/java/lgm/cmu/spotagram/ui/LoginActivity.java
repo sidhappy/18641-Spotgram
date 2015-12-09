@@ -498,8 +498,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
 
             } else {
                 if(error == -1){
@@ -589,8 +588,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "New User Registered. Login with the new Account", Toast.LENGTH_LONG);
                 toast.show();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             } else {
 
                 if (error==-1){
@@ -601,7 +599,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mEmailView.requestFocus();
                 }else if (error==-3){
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            "Registation failed, Please try again", Toast.LENGTH_LONG);
+                            "Registration failed, Please try again", Toast.LENGTH_LONG);
                     toast.show();
                 }
             }

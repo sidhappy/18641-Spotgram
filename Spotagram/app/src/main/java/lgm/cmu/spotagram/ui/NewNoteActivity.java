@@ -37,11 +37,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.model2.Comment;
 import lgm.cmu.spotagram.request.NewNoteRequest;
-import lgm.cmu.spotagram.request.ReplyNoteRequest;
 import lgm.cmu.spotagram.request.UploadNoteImageRequest;
-import lgm.cmu.spotagram.request.UploadProfileRequest;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.ParameterUtils;
 
@@ -54,7 +51,6 @@ public class NewNoteActivity extends AppCompatActivity {
     private double mlat = 0.0;
     private double mlon = 0.0;
     private EditText noteET;
-    private String targetURL = "noteservlet";
     private int userid;
     private String username;
     private int mNoteId;
@@ -83,8 +79,8 @@ public class NewNoteActivity extends AppCompatActivity {
 
         Intent intent1 = getIntent();
 
-        latitudeStr = intent1.getStringExtra("latitude");
-        longitudeStr = intent1.getStringExtra("longitude");
+        latitudeStr = intent1.getStringExtra(ConstantValue.KEY_LOC_LATITUDE);
+        longitudeStr = intent1.getStringExtra(ConstantValue.KEY_LOC_LONGITUDE);
 
         mlat = Double.valueOf(latitudeStr);
         mlon = Double.valueOf(longitudeStr);
@@ -99,8 +95,7 @@ public class NewNoteActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                send_and_return();
             }
         });
     }
@@ -122,14 +117,14 @@ public class NewNoteActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Take Photo Or Choose Photo")
                 .setIcon(android.R.drawable.ic_input_add)
-                .setNegativeButton("Take photo", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Take", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, IMAGE_CAPTURE);
                     }
                 })
-                .setPositiveButton("Choose photo", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Choose", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -218,7 +213,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
     //send a new post, then return to map view
-    public void send_and_return(View v){
+    public void send_and_return(){
 
         String content = noteET.getText().toString();
         if (content.equals("")){

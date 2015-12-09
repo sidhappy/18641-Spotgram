@@ -112,14 +112,14 @@ public class SettingsActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Take Photo Or Choose Photo")
                 .setIcon(android.R.drawable.ic_input_add)
-                .setNegativeButton("Take photo", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Take", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, IMAGE_CAPTURE);
                     }
                 })
-                .setPositiveButton("Choose photo", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Choose", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

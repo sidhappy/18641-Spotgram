@@ -20,11 +20,12 @@ public class MapUtils {
     public static void setMapFreeze(GoogleMap map){
         UiSettings msettings = map.getUiSettings();
 
-
         msettings.setAllGesturesEnabled(false);
         msettings.setMyLocationButtonEnabled(false);
         msettings.setMapToolbarEnabled(false);
         msettings.setIndoorLevelPickerEnabled(false);
+        msettings.setZoomControlsEnabled(false);
+
     }
 
     public static void showPosMarkers(GoogleMap map, double lat, double lon, ArrayList<MarkerOptions> markers){

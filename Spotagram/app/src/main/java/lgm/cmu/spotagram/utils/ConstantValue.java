@@ -33,6 +33,7 @@ public class ConstantValue {
 	public static final String KEY_NOTE_IMAGE_NAME = "note_photo_name";
 	public static final String KEY_PROFILE = "profile";
 	public static final String KEY_NOTE_PHOTO = "note_photo";
+	public static final String KEY_LOC_STRING_ARR = "markers_string_arr";
 
 	public static final String JSON_NOTE_ID = "note_id";
 	public static final String JSON_COMMENT_ID = "comment_id";
