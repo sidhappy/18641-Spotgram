@@ -387,6 +387,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .zoom(15)
                         .build();
 
+                setLoction(latLng.latitude,latLng.longitude);
+
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp), 3000, null);
             }
         });
