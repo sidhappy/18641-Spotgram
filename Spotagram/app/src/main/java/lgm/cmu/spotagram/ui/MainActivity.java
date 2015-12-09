@@ -1,6 +1,7 @@
 package lgm.cmu.spotagram.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -301,7 +303,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.action_aboutme:
                 // Set a Dialog to show ABout
-                // TODO
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                        .setTitle("About Spotagram V0.9")
+                        .setMessage("18641 CMU 15 FALL\n\nDeveloper: dawang, leiyu, miaojunl");
+                builder.show();
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -26,7 +26,7 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/action_aboutme"
-        android:title="About Me"
+        android:title="About"
         android:orderInCategory="110"
         app:showAsAction="never" />
 
