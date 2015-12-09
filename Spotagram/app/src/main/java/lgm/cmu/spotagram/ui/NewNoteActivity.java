@@ -272,8 +272,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
     //return to map view
     public void return_to_map(){
-        Intent intent =new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
 }

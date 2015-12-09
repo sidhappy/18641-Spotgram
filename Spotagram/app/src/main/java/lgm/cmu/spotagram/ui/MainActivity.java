@@ -83,6 +83,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        mMap.clear();
+        setCurrentLocation(location);
+        initMarkers();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -326,11 +335,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
-
-
-
 
         // get current location
         if(location != null){
