@@ -97,6 +97,8 @@ public class PostDetailFragment extends Fragment {
     }
 
     private void setUserProfile(String url) {
+        if (url == null || url.equals("")) return;
+
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(url, mProfileImage);
     }

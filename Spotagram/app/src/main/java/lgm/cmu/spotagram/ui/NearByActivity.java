@@ -3,6 +3,7 @@ package lgm.cmu.spotagram.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 
@@ -84,11 +85,7 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
         // check whether has detail layout, only contains when the device is tablet
         mPostDetailLayout = (FrameLayout) findViewById(R.id.layout_post_detail);
         if (mPostDetailLayout != null) {
-            mPostDetailFragment = new PostDetailFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(mPostDetailLayout.getId(), mPostDetailFragment,
-                    PostDetailFragment.class.getName());
-            fragmentTransaction.commit();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
@@ -140,6 +137,7 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
             mPostDetailFragment = new PostDetailFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(mNearByLayout.getId(), mPostDetailFragment, PostDetailFragment.class.getName());
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -147,6 +145,16 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
             updatePosetDetail(note);
         } else {
             // device is tablet, show the info on detail fragment
+            if (mPostDetailFragment == null) {
+                mPostDetailFragment = new PostDetailFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.add(mPostDetailLayout.getId(), mPostDetailFragment,
+                        PostDetailFragment.class.getName());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+            updatePosetDetail(note);
         }
 
     }
