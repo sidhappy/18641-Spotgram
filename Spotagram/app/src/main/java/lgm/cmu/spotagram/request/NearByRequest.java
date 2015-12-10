@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.util.RequestUtil;
 import lgm.cmu.spotagram.utils.ConstantValue;
 

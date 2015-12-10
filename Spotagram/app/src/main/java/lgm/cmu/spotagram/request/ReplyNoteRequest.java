@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lgm.cmu.spotagram.model2.Comment;
 import lgm.cmu.spotagram.request.util.RequestUtil;
 import lgm.cmu.spotagram.utils.ConstantValue;
 
@@ -33,7 +32,7 @@ public class ReplyNoteRequest extends  BasicRequest {
     private String mUserName;
     private String mContent;
 
-    public ReplyNoteRequest(int mUserId, int mNoteId, String mUserName, String mContent) {
+    public ReplyNoteRequest(int mNoteId, int mUserId, String mUserName, String mContent) {
         this.mUserId = mUserId;
         this.mNoteId = mNoteId;
         this.mUserName = mUserName;

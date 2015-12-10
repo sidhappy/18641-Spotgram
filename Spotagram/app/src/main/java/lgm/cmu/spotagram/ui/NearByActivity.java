@@ -1,28 +1,24 @@
 package lgm.cmu.spotagram.ui;
 
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,8 +26,8 @@ import java.util.List;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.fragment.NearByFragment;
 import lgm.cmu.spotagram.fragment.PostDetailFragment;
-import lgm.cmu.spotagram.model2.Comment;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Comment;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.CommentsRequest;
 import lgm.cmu.spotagram.request.NearByRequest;
 import lgm.cmu.spotagram.utils.ConstantValue;
@@ -55,13 +51,6 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
         setContentView(R.layout.activity_near_by);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        Intent intent1 = getIntent();
-        mLat = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LATITUDE, 0.0);
-        mLon = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LONGITUDE, 0.0);
-        markers = intent1.getStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR);
-
-
         initComponments();
         initViews();
         initListeners();
@@ -81,8 +70,15 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
 
     public void initComponments() {
         mContext = NearByActivity.this;
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        DisplayImageOptions displayOptions = new DisplayImageOptions.Builder().displayer(new FadeInBitmapDisplayer(500)).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(displayOptions).build();
         ImageLoader.getInstance().init(config);
+
+        Intent intent1 = getIntent();
+        mLat = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LATITUDE, 0.0);
+        mLon = intent1.getDoubleExtra(ConstantValue.KEY_LOC_LONGITUDE, 0.0);
+        markers = intent1.getStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR);
+
     }
 
     public void initViews() {
@@ -123,7 +119,7 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
     }
 
     private void sendNoteRequest() {
-        NearByRequest request = new NearByRequest(10, 10, 800000, 100, 0);
+        NearByRequest request = new NearByRequest((float)mLon, (float)mLat, 10, 100, 0);
         request.setOnNoteReadyListener(new NearByRequest.OnNoteReadyListener() {
             @Override
             public void onNoteReady(boolean isSuccess, List<Note> notes) {
@@ -142,21 +138,14 @@ public class NearByActivity extends AppCompatActivity implements NearByFragment.
         request.execute();
     }
 
-    // nothing, test function
-    private void setTextData() {
-        List<Note> notes = new ArrayList<>();
-        Note note = new Note(1, 1, new Date(System.currentTimeMillis()), "haha", 0, 0, "jack", "info", "", "");
-        note.setId(1);
-        notes.add(note);
-
-        mNearByFragment.setNotes(notes);
-    }
 
     @Override
     public void onNoteSelect(Note note) {
         if (mPostDetailLayout == null) {
             // device is phone, switch to detail fragment
-            mPostDetailFragment = new PostDetailFragment();
+            if (mPostDetailFragment == null) {
+                mPostDetailFragment = new PostDetailFragment();
+            }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(mNearByLayout.getId(), mPostDetailFragment, PostDetailFragment.class.getName());
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

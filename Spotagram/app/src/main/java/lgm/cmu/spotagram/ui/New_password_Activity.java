@@ -2,10 +2,8 @@ package lgm.cmu.spotagram.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,12 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
-
 import lgm.cmu.spotagram.Exception.InputErrorException;
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.model2.Note;
-import lgm.cmu.spotagram.request.NearByRequest;
 import lgm.cmu.spotagram.request.NewPasswordRequest;
 
 public class New_password_Activity extends AppCompatActivity {

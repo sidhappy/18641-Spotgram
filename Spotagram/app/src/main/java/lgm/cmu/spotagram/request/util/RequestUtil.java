@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import lgm.cmu.spotagram.model2.Comment;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Comment;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.utils.ConstantValue;
 
 /**

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Note;
 
 /**
  * Created by yulei on 2015/12/1.
@@ -25,11 +25,15 @@ public class NoteListAdapter extends BaseAdapter {
     private List<Note> mNotes;
     private Context mContext;
     private SimpleDateFormat mSimpleDateFormat;
+    private ImageLoader mImageLoader;
 
     public NoteListAdapter(Context context, List<Note> notes) {
         mNotes = notes;
         mContext = context;
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
     }
 
     @Override
@@ -69,9 +73,7 @@ public class NoteListAdapter extends BaseAdapter {
         holder.mContentTextView.setText(note.getContent());
         holder.mDateTextView.setText(mSimpleDateFormat.format(note.getDate()));
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(convertView.getContext()));
-        imageLoader.displayImage(note.getUserURL(), holder.mImageView);
+        mImageLoader.displayImage(note.getUserURL(), holder.mImageView);
 
         return convertView;
     }

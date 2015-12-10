@@ -1,12 +1,8 @@
 package lgm.cmu.spotagram.fragment;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +14,8 @@ import java.util.List;
 
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.adapter.NoteListAdapter;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.MyNotesRequest;
-import lgm.cmu.spotagram.ui.SettingsActivity;
-import lgm.cmu.spotagram.utils.ConstantValue;
-import lgm.cmu.spotagram.utils.ParameterUtils;
 
 /**
  * A simple {@link Fragment} subclass.

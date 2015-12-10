@@ -1,36 +1,31 @@
 package lgm.cmu.spotagram.fragment;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.adapter.NoteListAdapter;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.MapUtils;
 
@@ -66,9 +61,6 @@ public class NearByFragment extends Fragment{
                 getChildFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.layout_map, mMapFragment);
         fragmentTransaction.commit();
-
-
-
 
         mListView = (ListView) view.findViewById(R.id.listview_notes);
         return view;
@@ -124,7 +116,6 @@ public class NearByFragment extends Fragment{
 
 
     public void setCurrentLocation(double lat, double lon){
-
         LatLng cur = new LatLng(lat,lon);
 
         mMap.addMarker(new MarkerOptions()

@@ -2,13 +2,12 @@ package lgm.cmu.spotagram.fragment;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,9 +23,11 @@ import java.util.List;
 
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.adapter.CommentListAdapter;
-import lgm.cmu.spotagram.model2.Comment;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Comment;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.ReplyNoteRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 /**
  * Created by yulei on 2015/12/1.
@@ -44,6 +45,7 @@ public class PostDetailFragment extends Fragment {
     private CommentListAdapter mAdapter;
     private List<Comment> mComments;
     private Note mNote;
+    private ImageLoader mImageLoader;
 
     public PostDetailFragment() {
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -84,6 +86,13 @@ public class PostDetailFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mImageLoader = ImageLoader.getInstance();
+    }
+
     public void setComments(List<Comment> comments) {
         mComments = comments;
         mAdapter = new CommentListAdapter(getActivity(), comments);
@@ -99,15 +108,14 @@ public class PostDetailFragment extends Fragment {
     private void setUserProfile(String url) {
         if (url == null || url.equals("")) return;
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(url, mProfileImage);
+
+        mImageLoader.displayImage(url, mProfileImage);
     }
 
     private void setNoteImage(String url) {
         if (url == null || url.equals("")) return;
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(url, mNoteImage);
+        mImageLoader.displayImage(url, mNoteImage);
     }
 
     public void setNoteInfo(Note note) {
@@ -120,10 +128,12 @@ public class PostDetailFragment extends Fragment {
     public void requestReplyNote() {
         String content = mEditText.getText().toString();
         if (mNote != null && content != null && content.length() != 0) {
-            ReplyNoteRequest request = new ReplyNoteRequest(mNote.getUserid(), mNote.getId(), mNote.getUsername(), content);
+            final int usrId = ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+            final String userName = ParameterUtils.getStringValue(ConstantValue.KEY_USERNAME);
+            ReplyNoteRequest request = new ReplyNoteRequest(mNote.getId(), usrId, userName, content);
 
             // in this part, we should get the device owner's userId and name
-            final Comment comment = new Comment(null, content, mNote.getUserid(), mNote.getUsername(), mNote.getId());
+            final Comment comment = new Comment(null, content, usrId, userName, mNote.getId());
 
             request.setOnCommentReadyListener(new ReplyNoteRequest.OnNoteReplyListener() {
                 @Override
@@ -132,16 +142,26 @@ public class PostDetailFragment extends Fragment {
                         Toast.makeText(getActivity(), "Post success", Toast.LENGTH_SHORT).show();
                         mComments.add(comment);
                         mAdapter.notifyDataSetChanged();
+                        mEditText.setText("");
                     } else {
                         Toast.makeText(getActivity(), "Internet err", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             });
+
+            closeInputMethod();
 
             request.execute();
         } else {
             Toast.makeText(getActivity(), "Note is null or no input", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void closeInputMethod() {
+        mEditText.clearFocus();
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 }

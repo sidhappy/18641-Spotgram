@@ -6,19 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import lgm.cmu.spotagram.R;
-import lgm.cmu.spotagram.model2.Comment;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Comment;
 
 /**
  * Created by yulei on 2015/12/1.

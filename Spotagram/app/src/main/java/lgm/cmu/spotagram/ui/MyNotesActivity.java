@@ -2,12 +2,8 @@ package lgm.cmu.spotagram.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,12 +19,10 @@ import java.util.List;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.adapter.NoteListAdapter;
 import lgm.cmu.spotagram.fragment.PostDetailFragment;
-import lgm.cmu.spotagram.fragment.myNotesFragment;
-import lgm.cmu.spotagram.model2.Comment;
-import lgm.cmu.spotagram.model2.Note;
+import lgm.cmu.spotagram.model.Comment;
+import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.CommentsRequest;
 import lgm.cmu.spotagram.request.MyNotesRequest;
-import lgm.cmu.spotagram.request.NearByRequest;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.ParameterUtils;
 
