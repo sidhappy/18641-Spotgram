@@ -16,6 +16,8 @@ import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.adapter.NoteListAdapter;
 import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.MyNotesRequest;
+import lgm.cmu.spotagram.utils.ConstantValue;
+import lgm.cmu.spotagram.utils.ParameterUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +47,7 @@ public class myNotesFragment extends Fragment {
 
 
 //        int userID= 23;
-        int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+        int userID= ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
 
 
         MyNotesRequest request=new MyNotesRequest(userID);
