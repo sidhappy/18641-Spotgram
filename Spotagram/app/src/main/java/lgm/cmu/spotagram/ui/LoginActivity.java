@@ -256,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if(registerReady==false){
 
-            Toast.makeText(getApplicationContext(), "Please insert a new UserName",
+            Toast.makeText(LoginActivity.this, "Please insert a new UserName",
                     Toast.LENGTH_SHORT).show();
             userNameView.setText(null);
             userNameView.setVisibility(View.VISIBLE);
@@ -561,8 +561,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (receive.length()>14){
                 String part=receive.split(",")[1].split(":")[1];
                 int userID=Integer.parseInt(part.substring(0,part.length()-1));
+
                 ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,userID);
-                ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL,mEmail);
+                ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL, mEmail);
                 ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, mUsername);
                 ParameterUtils.setStringValue(ConstantValue.KEY_PWD, mPassword);
                 error=0;

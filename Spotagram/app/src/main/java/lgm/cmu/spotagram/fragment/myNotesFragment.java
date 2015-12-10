@@ -44,8 +44,8 @@ public class myNotesFragment extends Fragment {
         mListView = (ListView) view.findViewById(R.id.myNotes_list);
 
 
-        int userID= 23;
-        //int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
+//        int userID= 23;
+        int userID=ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID);
 
 
         MyNotesRequest request=new MyNotesRequest(userID);

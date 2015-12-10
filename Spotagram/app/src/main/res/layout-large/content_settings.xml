@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="logout"
-                android:text="General"
+                android:text="Log out"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_columnSpan="1"/>
