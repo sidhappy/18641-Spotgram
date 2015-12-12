@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<MarkerOptions> markers;
     private ArrayList<Marker> mks;
     private ArrayList<String> passLocArr;
-    private Geocoder geoCoder;
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -104,9 +103,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        geoCoder = new Geocoder(this, Locale.ENGLISH);
-
-
         // set location manager and location
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -126,14 +122,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Intent intent;
                 if (checkLoginStatus()) {
-                    // need to send the location
-                    intent = new Intent(MainActivity.this, NewNoteActivity.class);
 
                     if (location != null) {
+                        // need to send the location
+                        intent = new Intent(MainActivity.this, NewNoteActivity.class);
                         intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, String.valueOf(location.getLatitude()));
                         intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, String.valueOf(location.getLongitude()));
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Wait for your location", Toast.LENGTH_SHORT).show();
                     }
-                    startActivity(intent);
+
+
                 } else {
                     intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -145,11 +145,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         try {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,10000,10, new LocationListener() {
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    // disable location update
-                    //setCurrentLocation(location);
+                    setCurrentLocation(location);
                 }
 
 
@@ -266,12 +265,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_nearby:
 
                 if (checkLoginStatus()){
-                    intent = new Intent(MainActivity.this, NearByActivity.class);
-                    intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, location.getLatitude());
-                    intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, location.getLongitude());
-                    intent.putStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR, passLocArr);
 
-                    startActivity(intent);
+
+                    if (location != null) {
+                        intent = new Intent(MainActivity.this, NearByActivity.class);
+                        intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, location.getLatitude());
+                        intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, location.getLongitude());
+                        intent.putStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR, passLocArr);
+
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "Wait for your location", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else {
                     intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -393,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .zoom(15)
                         .build();
 
-                setLoction(latLng.latitude,latLng.longitude);
+                setLoction(latLng.latitude, latLng.longitude);
 
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp), 3000, null);
             }
@@ -419,18 +425,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // add locations to map
                     for (Note n : notes) {
                         markers.add(new MarkerOptions()
-                                .position(new LatLng(n.getLatitude(), n.getLongitude()))
-                                .title(n.getContent())
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                                        .position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                        .title(n.getContent())
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                         );
 
                         // prepare the passArray
-                        passLocArr.add(n.getLatitude()+"");
-                        passLocArr.add(n.getLongitude()+"");
+                        passLocArr.add(n.getLatitude() + "");
+                        passLocArr.add(n.getLongitude() + "");
                         passLocArr.add(n.getContent());
                     }
 
-                    for (MarkerOptions mo: markers){
+                    for (MarkerOptions mo : markers) {
                         mks.add(mMap.addMarker(mo));
                     }
 
@@ -445,6 +451,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     public void setCurrentLocation(Location location){
+
+        if(mMarker != null){
+            mMarker.remove();
+        }
 
         LatLng cur = new LatLng(location.getLatitude(),location.getLongitude());
         this.location = location;

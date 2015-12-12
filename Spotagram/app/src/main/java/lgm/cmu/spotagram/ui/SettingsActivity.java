@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         text1=(TextView)findViewById(R.id.userName);
         text3=(TextView)findViewById(R.id.ID_OfSetting);
 
-        if(ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID)!=0){
+        if(ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID)>0){
             text3.setText(""+ParameterUtils.getIntValue(ConstantValue.KEY_USER_ID));
         }
 
@@ -171,7 +171,11 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void logout(View v){
-
+        ParameterUtils.setIntValue(ConstantValue.KEY_USER_ID,0);
+        ParameterUtils.setStringValue(ConstantValue.KEY_EMAIL, null);
+        ParameterUtils.setStringValue(ConstantValue.KEY_USERNAME, null);
+        ParameterUtils.setStringValue(ConstantValue.KEY_PWD, null);
+        Toast.makeText(getApplicationContext(), "Logout done", Toast.LENGTH_SHORT).show();
     }
     public void set_notify(View v){
 
@@ -230,7 +234,6 @@ public class SettingsActivity extends AppCompatActivity {
         MediaStore.Images.Media.insertImage(getContentResolver(),bmp,"title","description");
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
-        Log.e(Uri.parse("file://" + Environment.getExternalStorageDirectory()).toString(), "Storage Location");
 
         bmp = scaleDownBitmap(bmp, 100, this);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
