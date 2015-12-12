@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<MarkerOptions> markers;
     private ArrayList<Marker> mks;
     private ArrayList<String> passLocArr;
-    private Geocoder geoCoder;
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -103,9 +102,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        geoCoder = new Geocoder(this, Locale.ENGLISH);
-
 
         // set location manager and location
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -273,8 +269,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     if (location != null) {
                         intent = new Intent(MainActivity.this, NearByActivity.class);
-                        intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, String.valueOf(location.getLatitude()));
-                        intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, String.valueOf(location.getLongitude()));
+                        intent.putExtra(ConstantValue.KEY_LOC_LATITUDE, location.getLatitude());
+                        intent.putExtra(ConstantValue.KEY_LOC_LONGITUDE, location.getLongitude());
                         intent.putStringArrayListExtra(ConstantValue.KEY_LOC_STRING_ARR, passLocArr);
 
                         startActivity(intent);
