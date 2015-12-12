@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="lgm.cmu.spotagram.ui.SettingActivity"
+    tools:showIn="@layout/activity_setting">
+
+    <TextView
+        android:id="@+id/personal_info"
+        android:textColor="#6A5ACD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left"
+        android:text="Personal Information"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <GridLayout
+        android:layout_below="@+id/personal_info"
+        android:id="@+id/grid_setting"
+        android:layout_width="300sp"
+        android:layout_height="match_parent"
+        android:columnCount="1"
+        android:orientation="horizontal"
+        android:rowCount="12">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:text="Photo"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/photo_image"
+                android:layout_width="70sp"
+                android:layout_height="70sp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="40dp"
+                android:onClick="set_photo"
+                android:src="@drawable/sample_android" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:text="Name"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/userName"
+                android:layout_gravity="right"
+                android:maxLength="15"
+                android:onClick="set_name"
+                android:text="ss"
+                android:layout_marginLeft="50dp"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_columnSpan="1">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_gravity="left"
+                android:text="ID" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/ID_OfSetting"
+                android:layout_marginLeft="85dp"
+                android:textSize="20dp"
+                android:layout_gravity="right"
+                android:text="sss" />
+        </LinearLayout>
+
+        <TextView
+            android:textColor="#6A5ACD"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:layout_gravity="left"
+            android:text="My Notes >"
+            android:onClick="open_Mynotes"
+            android:layout_columnSpan="1"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:layout_gravity="left"
+            android:text="Setting"
+            android:textColor="#6A5ACD"
+            android:layout_columnSpan="1"/>
+        <RelativeLayout
+            android:layout_columnSpan="1">
+            <ImageView
+                android:id="@+id/noti_image"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_notifications_black_24dp"/>
+            <TextView
+                android:layout_toRightOf="@id/noti_image"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="set_notify"
+                android:text="Notification"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_columnSpan="1"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_columnSpan="1">
+            <ImageView
+                android:layout_gravity="right"
+                android:id="@+id/gene_image"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_setting_light"/>
+            <TextView
+                android:layout_toRightOf="@+id/gene_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="logout"
+                android:text="Log out"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_columnSpan="1"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_columnSpan="1">
+            <ImageView
+                android:layout_gravity="right"
+                android:id="@+id/pri_image"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_info_black_24dp"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/pri_image"
+                android:onClick="set_privacy"
+                android:textSize="20dp"
+                android:text="Set New Password"
+                android:textStyle="bold"
+                android:layout_columnSpan="1"/>
+
+        </RelativeLayout>
+
+    </GridLayout>
+
+    <FrameLayout
+        android:layout_toRightOf="@+id/grid_setting"
+        android:id="@+id/frag_setting"
+        android:layout_width="600sp"
+        android:layout_height="500sp">
+
+    </FrameLayout>
+
+
+
+</RelativeLayout>
+
+
+
+
+
