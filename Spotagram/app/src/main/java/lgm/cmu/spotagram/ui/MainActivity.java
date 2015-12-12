@@ -1,13 +1,16 @@
 package lgm.cmu.spotagram.ui;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 
 import android.support.v4.view.MenuItemCompat;
@@ -59,6 +62,7 @@ import java.util.Locale;
 import lgm.cmu.spotagram.R;
 import lgm.cmu.spotagram.model.Note;
 import lgm.cmu.spotagram.request.NearByRequest;
+import lgm.cmu.spotagram.service.LocationService;
 import lgm.cmu.spotagram.utils.ConstantValue;
 import lgm.cmu.spotagram.utils.ParameterUtils;
 
@@ -71,6 +75,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<MarkerOptions> markers;
     private ArrayList<Marker> mks;
     private ArrayList<String> passLocArr;
+
+    private LocationService mLocationService;
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mLocationService = ((LocationService.MyBinder) service).getService();
+
+        }
+    };
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -246,7 +265,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     public void setLoction(double lat, double lon){
@@ -630,6 +648,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
+    }
+
+    private void startService() {
+        Intent bindIntent = new Intent(this, LocationService.class);
+        bindService(bindIntent, connection, BIND_AUTO_CREATE);
+
+        if (mLocationService != null) {
+            mLocationService.getLocation();
+        }
+    }
+
+    private void stopService() {
+        unbindService(connection);
     }
 
 

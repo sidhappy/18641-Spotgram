@@ -79,6 +79,8 @@
             android:label="@string/title_activity_new_password_"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <service android:name=".service.LocationService"/>
+
     </application>
 
 </manifest>
